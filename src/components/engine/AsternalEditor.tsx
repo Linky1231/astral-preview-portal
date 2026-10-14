@@ -288,10 +288,10 @@ export function AsternalEditor({ initialProjectId, beta = false }: {
   ];
 
   return (
-    <div className={`flex h-screen w-full overflow-hidden ${isTablet ? "flex-row" : "flex-col"}`}>
+    <div className={`editor-shell flex h-dvh w-full overflow-hidden ${isTablet ? "flex-row" : "flex-col"}`}>
       {/* Left rail (tablet/desktop) */}
       {isTablet && (
-        <nav className="w-[88px] border-r border-border/70 bg-card flex flex-col items-stretch py-3 gap-1 px-2 shrink-0">
+        <nav className="editor-rail w-[88px] border-r flex flex-col items-stretch py-3 gap-1 px-2 shrink-0">
           <div className="grid place-items-center pb-2.5 mb-1.5 border-b border-border/50">
             <Logo />
           </div>
@@ -302,8 +302,8 @@ export function AsternalEditor({ initialProjectId, beta = false }: {
               title={label}
               className={`relative flex flex-col items-center gap-1.5 py-3 rounded-lg transition-colors duration-150 active:scale-[0.96] ${
                 tab === id
-                  ? "text-foreground bg-card border border-border/70 shadow-sm"
-                  : "text-ink-3 hover:bg-muted/60 hover:text-foreground"
+                  ? "text-primary bg-primary/12 border border-primary/20 shadow-sm before:absolute before:-left-2 before:top-1/2 before:h-6 before:w-1 before:-translate-y-1/2 before:rounded-r-full before:bg-primary"
+                  : "text-ink-3 border border-transparent hover:bg-primary/[0.06] hover:text-foreground"
               }`}
             >
               <span className="leading-none">{icon}</span>
@@ -315,11 +315,11 @@ export function AsternalEditor({ initialProjectId, beta = false }: {
 
     <div className="flex h-full flex-1 flex-col overflow-hidden min-w-0">
       {/* Top bar */}
-      <header className="flex flex-wrap items-center justify-between gap-2 px-3 py-2 border-b border-border/70 bg-card/80">
+      <header className="editor-bar flex flex-wrap items-center justify-between gap-2 px-3 py-2 border-b">
         <div className="flex min-w-0 items-center gap-2.5">
           {!isTablet && <Logo />}
           <div className="min-w-0">
-            <div className="truncate font-display text-sm font-semibold text-foreground leading-none tracking-wide">ASTERNAL</div>
+            <div className="flex items-center gap-2"><span className="truncate font-display text-sm font-semibold text-foreground leading-none">{project.name || "Proyecto sin título"}</span><span className="shrink-0 rounded-md bg-primary/10 px-1.5 py-0.5 text-[9px] font-semibold tracking-wider text-primary">STUDIO</span></div>
             <div className={`mt-0.5 truncate text-[10px] font-mono ${dirty ? "text-amber-500" : "text-ink-3"}`}>
               {dirty
                 ? "● cambios sin guardar"
@@ -531,7 +531,7 @@ export function AsternalEditor({ initialProjectId, beta = false }: {
             juntos en la esquina inferior derecha. Duplicar es contextual (pide una
             entidad seleccionada); Capas y Biblioteca solo aplican a Construir;
             Guardar acompaña a todas las pestañas. */}
-        <div className="pointer-events-none absolute right-3 bottom-3 z-20 flex flex-row items-center gap-2">
+        <div className="editor-fab-group pointer-events-auto absolute right-3 bottom-3 z-20 flex flex-row items-center gap-1 rounded-2xl p-1">
           {tab === "build" && selected && (
             <button
               onClick={() => {
@@ -541,7 +541,7 @@ export function AsternalEditor({ initialProjectId, beta = false }: {
                 updateScene(result.scene);
                 setSelectedId(result.cloneId);
               }}
-              className="pointer-events-auto w-11 h-11 rounded-xl bg-card border border-line-strong shadow-md text-ink-2 hover:text-primary hover:border-primary/40 active:scale-90 transition grid place-items-center"
+              className="pointer-events-auto w-10 h-10 rounded-xl editor-fab text-ink-2 hover:text-primary hover:border-primary/40 active:scale-90 transition grid place-items-center"
               title="Duplicar objeto (Ctrl+D)"
               aria-label="Duplicar"
             ><Copy size={18} /></button>
@@ -549,10 +549,10 @@ export function AsternalEditor({ initialProjectId, beta = false }: {
           {tab === "build" && (
             <button
               onClick={() => setLayersOpen(o => !o)}
-              className={`pointer-events-auto w-11 h-11 rounded-xl grid place-items-center shadow-md active:scale-90 transition ${
+              className={`pointer-events-auto w-10 h-10 rounded-xl grid place-items-center active:scale-90 transition ${
                 layersOpen
                   ? "bg-primary text-primary-foreground border border-primary"
-                  : "bg-card border border-line-strong text-ink-2 hover:text-primary hover:border-primary/40"
+                  : "editor-fab text-ink-2 hover:text-primary"
               }`}
               title="Capas de la escena"
               aria-label="Capas"
@@ -561,7 +561,7 @@ export function AsternalEditor({ initialProjectId, beta = false }: {
           {tab === "build" && (
             <button
               onClick={() => setLibraryOpen(true)}
-              className="pointer-events-auto w-11 h-11 rounded-xl bg-card border border-line-strong shadow-md text-ink-2 hover:text-primary hover:border-primary/40 active:scale-90 transition grid place-items-center"
+              className="pointer-events-auto w-10 h-10 rounded-xl editor-fab text-ink-2 hover:text-primary hover:border-primary/40 active:scale-90 transition grid place-items-center"
               title={t("library.title")}
               aria-label="Librería de objetos"
             ><LibraryBig size={18} /></button>
@@ -571,10 +571,10 @@ export function AsternalEditor({ initialProjectId, beta = false }: {
             disabled={!dirty}
             aria-label="Guardar proyecto"
             title={dirty ? "Guardar cambios" : "Todo guardado"}
-            className={`pointer-events-auto w-11 h-11 rounded-xl grid place-items-center shadow-md active:scale-90 transition disabled:opacity-45 ${
+            className={`pointer-events-auto w-10 h-10 rounded-xl grid place-items-center active:scale-90 transition disabled:opacity-45 ${
               dirty
                 ? "btn-grad text-primary-foreground border border-transparent"
-                : "bg-card border border-line-strong text-ink-2"
+                : "editor-fab text-ink-2"
             }`}
           ><Save size={18} /></button>
         </div>
@@ -583,7 +583,7 @@ export function AsternalEditor({ initialProjectId, beta = false }: {
 
       {/* Tool strip — only on build */}
       {tab === "build" && (
-        <div className="px-2 py-1.5 border-t border-border/70 bg-card">
+        <div className="editor-bar px-2 py-1 border-t">
           {/* El scroller aporta aire vertical propio: `overflow-x-auto`
               también recorta el eje Y, así que sin este padding la sombra del
               botón seleccionado aparecía cortada. */}
@@ -593,7 +593,7 @@ export function AsternalEditor({ initialProjectId, beta = false }: {
                 key={toolItem.id}
                 onClick={() => setTool(toolItem.id)}
                 title={t(toolItem.tKey)}
-                className={`shrink-0 flex items-center gap-1.5 h-9 px-3 rounded-lg border text-[10px] font-display font-medium transition-colors duration-150 active:scale-95 ${
+                className={`shrink-0 flex items-center gap-1.5 h-9 px-3.5 rounded-full border text-[10px] font-display font-medium transition-colors duration-150 active:scale-95 ${
                   tool === toolItem.id
                     ? "btn-grad border-transparent text-primary-foreground"
                     : "border-transparent text-ink-2 hover:bg-muted/60 hover:text-foreground"
@@ -609,7 +609,7 @@ export function AsternalEditor({ initialProjectId, beta = false }: {
 
       {/* Bottom tabs (mobile only) */}
       {!isTablet && (
-      <nav className="grid grid-cols-6 border-t border-border/70 bg-card pb-[env(safe-area-inset-bottom)]">
+      <nav className="editor-bar grid grid-cols-6 border-t pb-[env(safe-area-inset-bottom)]">
         {TABS.map(([id, label, icon]) => (
           <button
             key={id}
