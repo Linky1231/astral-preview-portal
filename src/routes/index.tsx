@@ -940,14 +940,14 @@ function FeedSubTabs({ value, onChange }: { value: FeedSub; onChange: (v: FeedSu
       {items.map((it) => {
         const active = value === it.id;
         return (
-          <button
+          <Button variant="ghost" type="button"
             key={it.id}
             onClick={() => onChange(it.id)}
             aria-pressed={active}
-            className={`flex-1 min-w-0 flex items-center justify-center gap-1.5 px-2.5 py-2 rounded-xl text-[10px] sm:text-[11px] font-display font-semibold tracking-wide whitespace-nowrap border transition-colors duration-200 outline-none focus:outline-none active:scale-[0.97] ${filterStateClass(active)}`}
+            className={`flex-1 min-w-0 flex items-center justify-center gap-1.5 h-10 px-1 sm:px-2.5 py-2 rounded-xl text-[10px] sm:text-[11px] font-display font-semibold tracking-wide whitespace-nowrap border transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.97] ${filterStateClass(active)}`}
           >
             {it.icon} {it.label.toUpperCase()}
-          </button>
+          </Button>
         );
       })}
     </div>

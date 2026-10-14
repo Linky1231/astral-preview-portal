@@ -2,6 +2,7 @@ import { memo, useEffect, useRef, useState } from "react";
 import { plusFrameColor } from "@/lib/social/plus-frames";
 import { toast } from "sonner";
 import { Avatar } from "./Avatar";
+import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { type PostWithMeta, toggleReaction, toggleRepost, deletePost, updatePost, reportContent, votePoll, isPlusActive } from "@/lib/social/api";
@@ -269,9 +270,9 @@ export const PostCard = memo(function PostCard({
   };
 
   return (
-    <article className={`group panel overflow-hidden rounded-2xl border border-border/60 transition-[border-color,box-shadow] duration-200 ease-out pointer-fine:hover:border-primary/30 pointer-fine:hover:shadow-sm ${entranceClass}`}>
+    <article className={`post-card group panel relative isolate min-w-0 overflow-hidden rounded-2xl border border-border/60 transition-[border-color,box-shadow] duration-200 ease-out pointer-fine:hover:border-primary/30 pointer-fine:hover:shadow-sm ${entranceClass}`}>
       {/* Hairline degradado superior */}
-      <div aria-hidden="true" className="h-px w-full grad-brand-fade opacity-35 pointer-fine:group-hover:opacity-50 transition-opacity duration-200" />
+      <div aria-hidden="true" className="absolute inset-x-4 top-0 h-px rounded-full grad-brand-fade opacity-35 pointer-fine:group-hover:opacity-50 transition-opacity duration-200" />
 
       <div className="p-3 space-y-3">
         <header className="flex items-center gap-2.5">
@@ -290,19 +291,19 @@ export const PostCard = memo(function PostCard({
             )}
           </Link>
           <Link to="/profile/$userId" params={{ userId: post.author_id }} className="flex-1 min-w-0 pointer-fine:hover:opacity-80 transition-opacity duration-300">
-            <div className="flex items-center gap-1.5">
-              <UserName p={author} size="sm" />
+            <div className="flex flex-wrap items-center gap-1.5">
+              <UserName p={author} size="sm" className="max-w-full" />
               {categoryChip}
             </div>
-            <div className="text-[10px] font-mono text-ink-3 mt-0.5">
+            <div className="truncate text-[10px] font-mono text-ink-3 mt-0.5">
               @{author?.username ?? "?"} · <span className="text-primary font-medium">{timeAgo(post.created_at)}</span>
             </div>
           </Link>
-          <button type="button" ref={menu.anchorRef} onClick={menu.toggle}
-            className="w-8 h-8 rounded-lg border border-border text-primary-glow grid place-items-center transition-[transform,background-color,color] duration-150 ease-out pointer-fine:hover:bg-primary/10 pointer-fine:hover:text-primary active:scale-[0.94]"
+          <Button variant="ghost" type="button" ref={menu.anchorRef} onClick={menu.toggle}
+            className="shrink-0 w-9 h-9 rounded-lg border border-border text-primary-glow grid place-items-center transition-[transform,background-color,color] duration-150 ease-out pointer-fine:hover:bg-primary/10 pointer-fine:hover:text-primary active:scale-[0.94]"
             aria-label="Menú de la publicación">
             <MoreHorizontal size={15} />
-          </button>
+          </Button>
           <CardMenu rect={menu.rect} onClose={menu.close} width={164}>
             {mine && <CardMenuItem onClick={() => { setEditing(true); menu.close(); }} icon={<Pencil size={13} />}>Editar</CardMenuItem>}
             {canDelete && <CardMenuItem onClick={remove} danger icon={<Trash2 size={13} />}>Borrar</CardMenuItem>}
@@ -325,14 +326,14 @@ export const PostCard = memo(function PostCard({
         {editing ? (
           <div className="space-y-2">
             <textarea value={editContent} onChange={e => setEditContent(e.target.value)} rows={3}
-              className="w-full bg-input/40 rounded-xl p-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-primary/40" />
+              aria-label="Editar publicación" className="min-w-0 w-full bg-input/40 rounded-xl p-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-primary/40" />
             <div className="flex gap-2 justify-end">
-              <button type="button" onClick={() => setEditing(false)}
-                className="text-xs px-3.5 py-1.5 rounded-xl border border-border hover:bg-muted/40 transition-colors duration-200">Cancelar</button>
+              <Button variant="ghost" type="button" onClick={() => setEditing(false)}
+                className="text-xs px-3.5 py-1.5 rounded-xl border border-border hover:bg-muted/40 transition-colors duration-200">Cancelar</Button>
               {/* `text-primary-foreground` en lugar de blanco fijo: en modo
                   oscuro el primary es claro y el texto blanco no se leía. */}
-              <button type="button" onClick={saveEdit}
-                className="text-xs px-3.5 py-1.5 rounded-xl bg-primary text-primary-foreground active:scale-[0.96] transition-transform duration-300 ease-out">Guardar</button>
+              <Button variant="ghost" type="button" onClick={saveEdit}
+                className="text-xs px-3.5 py-1.5 rounded-xl bg-primary text-primary-foreground active:scale-[0.96] transition-transform duration-300 ease-out">Guardar</Button>
             </div>
           </div>
         ) : (
@@ -370,7 +371,7 @@ export const PostCard = memo(function PostCard({
                   </span>
                   <span className="min-w-0 flex-1">
                     <span className="block truncate font-semibold text-foreground">{d.name}</span>
-                    <span className="mt-0.5 block text-[9px] font-medium uppercase tracking-[0.12em] text-muted-foreground">{file.label} · {file.format}</span>
+                    <span className="mt-0.5 block truncate text-[9px] font-medium uppercase tracking-[0.12em] text-muted-foreground">{file.label} · {file.format}</span>
                   </span>
                   <a href={d.url} target="_blank" rel="noreferrer" download={d.name}
                     className="grid h-8 w-8 shrink-0 place-items-center rounded-lg border border-border/70 bg-background/80 text-muted-foreground transition-[border-color,color,background-color,transform] duration-150 ease-out hover:border-primary/35 hover:bg-primary/[0.06] hover:text-primary active:scale-95"
@@ -386,12 +387,12 @@ export const PostCard = memo(function PostCard({
         {/* HTML embebido */}
         {post.html_content && (
           <div className={`rounded-xl overflow-hidden ${postSurfaceClass("html")}`}>
-            <button type="button" onClick={() => setShowHtml(s => !s)}
+            <Button variant="ghost" type="button" onClick={() => setShowHtml(s => !s)}
               className="w-full flex items-center gap-2 px-3 py-2.5 text-xs bg-primary/[0.055] pointer-fine:hover:bg-primary/[0.09] transition-colors duration-300">
               <Code2 size={13} className="text-primary" />
               <span className="flex-1 text-left font-medium">Contenido HTML {showHtml ? "(ocultar)" : "(mostrar)"}</span>
               <span className="text-muted-foreground transition-transform duration-300 ease-out" style={{ transform: showHtml ? "rotate(180deg)" : "none" }}>▼</span>
-            </button>
+            </Button>
             {showHtml && (
               <>
                 <iframe srcDoc={post.html_content} sandbox="" className="w-full h-64 bg-white" title="html-content" />
@@ -415,15 +416,15 @@ export const PostCard = memo(function PostCard({
               <div className="text-[9px] font-medium uppercase tracking-[0.12em] text-muted-foreground">Juego fijado</div>
               <div className="mt-0.5 truncate font-semibold text-foreground">{post.pinned_game.title}</div>
             </div>
-            <button
+            <Button variant="ghost"
               type="button"
-              onClick={() => onOpenGame?.(post.pinned_game!.id)}
+              onClick={() => { if (post.pinned_game) onOpenGame?.(post.pinned_game.id); }}
               className="grid h-8 w-8 shrink-0 place-items-center rounded-lg border border-border/70 bg-background/80 text-muted-foreground transition-[border-color,color,background-color,transform] duration-150 ease-out hover:border-primary/35 hover:bg-primary/[0.06] hover:text-primary active:scale-95"
               aria-label={`Jugar ${post.pinned_game.title}`}
               title={`Jugar ${post.pinned_game.title}`}
             >
               <Play size={14} className="ml-0.5" fill="currentColor" />
-            </button>
+            </Button>
           </div>
         )}
 
@@ -462,8 +463,8 @@ export const PostCard = memo(function PostCard({
 
         {post.link_url && (
           <a href={post.link_url} target="_blank" rel="noreferrer"
-            className="flex items-center gap-2 text-xs text-primary-glow hover:underline break-all transition-colors duration-300">
-            <Link2 size={13} className="shrink-0" /> {post.link_url}
+            className="min-w-0 flex items-center gap-2 text-xs text-primary-glow hover:underline break-all transition-colors duration-300">
+            <Link2 size={13} className="shrink-0" /><span className="min-w-0 break-all">{post.link_url}</span>
           </a>
         )}
 
@@ -471,7 +472,7 @@ export const PostCard = memo(function PostCard({
           <div className="flex flex-wrap gap-1.5">
             {post.tags.map(t => (
               <span key={t}
-                className="text-[10px] font-mono px-2 py-1 rounded-full bg-muted/40 text-muted-foreground border border-border/40 transition-[color,border-color] duration-300 ease-out pointer-fine:hover:text-primary-glow pointer-fine:hover:border-primary/30">
+                className="max-w-full break-all text-[10px] font-mono px-2 py-1 rounded-full bg-muted/40 text-muted-foreground border border-border/40 transition-[color,border-color] duration-300 ease-out pointer-fine:hover:text-primary-glow pointer-fine:hover:border-primary/30">
                 #{t}
               </span>
             ))}
@@ -480,9 +481,9 @@ export const PostCard = memo(function PostCard({
       </div>
 
       <footer className="flex items-center border-t border-border/50 bg-muted/15 px-1 py-0.5 text-[11px] text-muted-foreground">
-        <button type="button" onClick={() => { chooseFooterAction("like"); void react("like"); }}
-          aria-pressed={interactions.liked}
-          className={`flex-1 flex items-center justify-center gap-1.5 px-1 py-2 rounded-lg border transition-[transform,color,border-color] duration-150 ease-out active:scale-[0.93] ${socialActionStateClass(postFooterActionIsActive("like", { ...interactions, commentsOpen: openComments }))}`}>
+        <Button variant="ghost" type="button" onClick={() => { chooseFooterAction("like"); void react("like"); }}
+          aria-label="Me gusta" aria-pressed={interactions.liked}
+          className={`min-w-0 h-11 flex-1 flex items-center justify-center gap-1.5 px-1 py-2 rounded-lg border transition-[transform,color,border-color] duration-150 ease-out active:scale-[0.93] ${socialActionStateClass(postFooterActionIsActive("like", { ...interactions, commentsOpen: openComments }))}`}>
           <motion.span
             key={interactions.liked ? "liked" : "unliked"}
             initial={{ scale: 0.4, rotate: -18 }}
@@ -492,11 +493,11 @@ export const PostCard = memo(function PostCard({
           >
             <Heart size={15} className={interactions.liked ? "fill-current" : ""} />
           </motion.span>
-          <span className="tabular-nums font-medium">{interactions.likes}</span>
-        </button>
-        <button type="button" onClick={() => { chooseFooterAction("favorite"); void react("favorite"); }}
-          aria-pressed={interactions.favorited}
-          className={`flex-1 flex items-center justify-center gap-1.5 px-1 py-2 rounded-lg border transition-[transform,color,border-color] duration-150 ease-out active:scale-[0.93] ${socialActionStateClass(postFooterActionIsActive("favorite", { ...interactions, commentsOpen: openComments }))}`}>
+          <span className="min-w-0 truncate tabular-nums font-medium">{interactions.likes}</span>
+        </Button>
+        <Button variant="ghost" type="button" onClick={() => { chooseFooterAction("favorite"); void react("favorite"); }}
+          aria-label="Guardar en favoritos" aria-pressed={interactions.favorited}
+          className={`min-w-0 h-11 flex-1 flex items-center justify-center gap-1.5 px-1 py-2 rounded-lg border transition-[transform,color,border-color] duration-150 ease-out active:scale-[0.93] ${socialActionStateClass(postFooterActionIsActive("favorite", { ...interactions, commentsOpen: openComments }))}`}>
           <motion.span
             key={interactions.favorited ? "favd" : "unfavd"}
             initial={{ scale: 0.4, rotate: 18 }}
@@ -506,18 +507,18 @@ export const PostCard = memo(function PostCard({
           >
             <Star size={15} className={interactions.favorited ? "fill-current" : ""} />
           </motion.span>
-          <span className="tabular-nums font-medium">{interactions.favorites}</span>
-        </button>
-        <button type="button" onClick={() => chooseFooterAction("comments")}
+          <span className="min-w-0 truncate tabular-nums font-medium">{interactions.favorites}</span>
+        </Button>
+        <Button variant="ghost" type="button" onClick={() => chooseFooterAction("comments")}
           aria-haspopup="dialog"
           aria-label="Abrir la bandeja de comentarios"
-          className={`flex-1 flex items-center justify-center gap-1.5 px-1 py-2 rounded-lg border transition-[transform,color,border-color] duration-150 ease-out active:scale-[0.93] ${socialActionStateClass(postFooterActionIsActive("comments", { ...interactions, commentsOpen: openComments }))}`}>
+          className={`min-w-0 h-11 flex-1 flex items-center justify-center gap-1.5 px-1 py-2 rounded-lg border transition-[transform,color,border-color] duration-150 ease-out active:scale-[0.93] ${socialActionStateClass(postFooterActionIsActive("comments", { ...interactions, commentsOpen: openComments }))}`}>
           <MessageCircle size={15} className={openComments ? "fill-current/10" : ""} />
-          <span className="tabular-nums font-medium">{commentsCount}</span>
-        </button>
-        <button type="button" onClick={() => { chooseFooterAction("repost"); void repost(); }}
-          aria-pressed={interactions.reposted}
-          className={`flex-1 flex items-center justify-center gap-1.5 px-1 py-2 rounded-lg border transition-[transform,color,border-color] duration-150 ease-out active:scale-[0.93] ${socialActionStateClass(postFooterActionIsActive("repost", { ...interactions, commentsOpen: openComments }))}`}>
+          <span className="min-w-0 truncate tabular-nums font-medium">{commentsCount}</span>
+        </Button>
+        <Button variant="ghost" type="button" onClick={() => { chooseFooterAction("repost"); void repost(); }}
+          aria-label="Republicar" aria-pressed={interactions.reposted}
+          className={`min-w-0 h-11 flex-1 flex items-center justify-center gap-1.5 px-1 py-2 rounded-lg border transition-[transform,color,border-color] duration-150 ease-out active:scale-[0.93] ${socialActionStateClass(postFooterActionIsActive("repost", { ...interactions, commentsOpen: openComments }))}`}>
           <motion.span
             key={interactions.reposted ? "reposted" : "unreposted"}
             initial={{ scale: 0.6, rotate: -25 }}
@@ -527,8 +528,8 @@ export const PostCard = memo(function PostCard({
           >
             <Repeat2 size={15} />
           </motion.span>
-          <span className="tabular-nums font-medium">{interactions.reposts}</span>
-        </button>
+          <span className="min-w-0 truncate tabular-nums font-medium">{interactions.reposts}</span>
+        </Button>
       </footer>
 
       {openComments && (
@@ -559,30 +560,30 @@ function PollView({ poll, onVote }: { poll: NonNullable<PostWithMeta["poll"]>; o
         <span className="w-7 h-7 rounded-lg bg-primary/15 text-primary grid place-items-center shrink-0 mt-0.5">
           <span className="text-[11px]">📊</span>
         </span>
-        <div className="text-sm font-display leading-snug">{poll.question}</div>
+        <div className="min-w-0 break-words text-sm font-display leading-snug">{poll.question}</div>
       </div>
       {poll.options.map((opt, i) => {
         const count = poll.votes[i] ?? 0;
         const pct = poll.total ? Math.round((count / poll.total) * 100) : 0;
         const mine = poll.my_vote === i;
         return (
-          <button key={i} onClick={() => onVote(i)}
-            className={`relative w-full text-left rounded-xl overflow-hidden border transition-[transform,border-color,box-shadow] duration-300 ease-out active:scale-[0.98] ${mine ? "border-primary/50 shadow-sm" : "border-border/60 pointer-fine:hover:border-primary/30"}`}>
+          <Button variant="ghost" key={i} onClick={() => onVote(i)}
+            className={`relative h-auto min-w-0 w-full p-0 whitespace-normal text-left rounded-xl overflow-hidden border transition-[transform,border-color,box-shadow] duration-300 ease-out active:scale-[0.98] ${mine ? "border-primary/50 shadow-sm" : "border-border/60 pointer-fine:hover:border-primary/30"}`}>
             {voted && (
               <div className="absolute inset-y-0 left-0 bg-primary/15 transition-[width] duration-700 ease-out"
                 style={{ width: `${pct}%` }} />
             )}
-            <div className="relative flex items-center justify-between px-3 py-2.5 text-xs gap-2">
-              <span className={`flex items-center gap-2 ${mine ? "font-semibold text-primary-glow" : ""}`}>
+            <div className="relative w-full min-w-0 flex items-center justify-between px-3 py-2.5 text-xs gap-2">
+              <span className={`min-w-0 flex-1 flex items-center gap-2 ${mine ? "font-semibold text-primary-glow" : ""}`}>
                 {mine && <span className="w-4 h-4 rounded-full bg-primary grid place-items-center"><span className="w-1.5 h-1.5 rounded-full bg-white" /></span>}
-                {opt}
+                <span className="min-w-0 break-words">{opt}</span>
               </span>
-              {voted && <span className="tabular-nums text-muted-foreground font-medium">{pct}% · {count}</span>}
+              {voted && <span className="shrink-0 tabular-nums text-muted-foreground font-medium">{pct}% · {count}</span>}
             </div>
-          </button>
+          </Button>
         );
       })}
-      <div className="text-[10px] text-muted-foreground flex items-center justify-between">
+      <div className="text-[10px] text-muted-foreground flex flex-wrap gap-2 items-center justify-between">
         <span>{poll.total} votos</span>
         {!voted && <span className="text-primary-glow/70">toca una opción para votar</span>}
       </div>

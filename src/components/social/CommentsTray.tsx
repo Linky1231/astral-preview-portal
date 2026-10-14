@@ -1,5 +1,7 @@
 import { useEffect, useId, useRef } from "react";
 import { MessageCircle, X } from "lucide-react";
+import { createPortal } from "react-dom";
+import { Button } from "@/components/ui/button";
 import { CommentSection } from "./CommentSection";
 
 /**
@@ -62,13 +64,12 @@ export function CommentsTray({
     };
   }, []);
 
-  return (
+  return createPortal(
     <div
       role="dialog"
       aria-modal="true"
       aria-label="Bandeja de comentarios"
-      className="fixed inset-0 z-[95] flex flex-col bg-background"
-      style={{ height: "100dvh" }}
+      className="fixed inset-0 h-dvh z-[95] flex flex-col bg-background"
     >
       <header className="shrink-0 border-b border-border/60 bg-background">
         <div className="mx-auto flex w-full max-w-2xl items-center gap-2.5 px-4 py-3 md:max-w-3xl">
@@ -76,19 +77,19 @@ export function CommentsTray({
             <MessageCircle size={18} />
           </div>
           <div className="min-w-0 flex-1">
-            <h2 className="font-display text-base font-semibold text-foreground">Bandeja de comentarios</h2>
+            <h2 className="font-display text-sm sm:text-base font-semibold text-foreground">Bandeja de comentarios</h2>
             <p className="truncate text-xs text-muted-foreground">
               {authorUsername ? `Conversación en la publicación de @${authorUsername}` : "Conversación de la publicación"}
             </p>
           </div>
-          <button
+          <Button variant="outline"
             type="button"
             onClick={onClose}
             aria-label="Cerrar la bandeja de comentarios"
             className="grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-border bg-card text-muted-foreground transition hover:bg-muted/60 hover:text-foreground active:scale-95"
           >
             <X size={16} />
-          </button>
+          </Button>
         </div>
       </header>
 
@@ -97,6 +98,7 @@ export function CommentsTray({
           <CommentSection postId={postId} myId={myId} isMod={isMod} onChange={onChange} />
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
