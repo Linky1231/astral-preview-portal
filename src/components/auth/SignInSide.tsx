@@ -63,13 +63,13 @@ function Field({
 }) {
   return (
     <div className="space-y-1">
-      <label className="block text-[11px] font-medium text-muted-foreground">{label}</label>
+      <label className="block px-1 text-[11px] font-medium tracking-wide text-muted-foreground">{label}</label>
       <div
-        className={`glass-control relative isolate flex items-center overflow-hidden rounded-xl transition focus-within:border-primary/65 focus-within:ring-1 focus-within:ring-primary/30 ${
+        className={`glass-control relative isolate flex items-center overflow-hidden rounded-2xl transition focus-within:border-primary/65 focus-within:ring-1 focus-within:ring-primary/30 ${
           error ? "border-destructive/40" : ""
         }`}
       >
-        <span className="relative z-10 flex w-10 shrink-0 justify-center text-muted-foreground/40">
+        <span className="relative z-10 flex w-11 shrink-0 justify-center text-muted-foreground/40">
           <Icon size={15} />
         </span>
         <input
@@ -82,7 +82,7 @@ function Field({
           minLength={minLength}
           required
           aria-invalid={!!error}
-          className={`w-full bg-transparent px-2.5 py-2.5 text-sm outline-none placeholder:text-muted-foreground/35 ${AUTH_FIELD_INPUT_FOCUS_CLASS}`}
+          className={`w-full min-w-0 bg-transparent px-1 py-3 text-sm outline-none placeholder:text-muted-foreground/35 ${AUTH_FIELD_INPUT_FOCUS_CLASS}`}
         />
         {/* Control del final del recuadro: el ojo de siempre para
             mostrar/ocultar la contraseña. */}
@@ -275,7 +275,7 @@ export function SignInSide({ onSignedIn, returnTo = "/", notice }: SignInSidePro
 
         {/* Tarjeta de acceso */}
         <section className="w-full max-w-[420px] lg:shrink-0">
-          <div className="glass-surface auth-card relative overflow-hidden rounded-[28px] p-6 sm:p-8">
+          <div className="glass-surface auth-card relative overflow-hidden rounded-[32px] p-6 shadow-xl ring-1 ring-white/40 sm:p-9">
             {/* Filo de marca: hilo de degradado en el borde superior */}
             <span aria-hidden className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
 

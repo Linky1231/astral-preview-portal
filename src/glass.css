@@ -213,6 +213,33 @@ input[type="checkbox"], input[type="radio"], input[type="range"], input[type="co
   outline: none;
 }
 
+/* Campos dentro de un control compuesto (icono + input + botón, p. ej. el
+   login): el recuadro de cristal lo dibuja el contenedor, así que el input
+   interno no debe pintar su propio fondo, borde ni redondeo — si lo hace,
+   se sale de las esquinas redondeadas y el cursor/texto se ve recortado. */
+:is(.glass-control, .search-field) :is(input, textarea, select) {
+  background-color: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-appearance: none;
+  appearance: none;
+  caret-color: var(--primary);
+  min-width: 0;
+}
+:is(.glass-control, .search-field) :is(input, textarea, select):focus,
+:is(.glass-control, .search-field) :is(input, textarea, select):focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+/* El texto seleccionado respeta el azul de la marca y no desborda el campo */
+::selection {
+  background-color: oklch(0.45 0.15 264 / 0.25);
+}
+
 /* ─── Botón único: cristal azul oscuro ───────────────────────────────────── */
 :is(button, a)[class~="bg-primary"],
 .btn-grad,
