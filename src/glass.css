@@ -1,0 +1,326 @@
+/* ============================================================================
+   ASTERNAL · GLASS — sistema visual único
+   ───────────────────────────────────────
+   Reemplaza al antiguo estilo M3E Canvas. Todo es cristal (glassmorphism):
+   superficies translúcidas con desenfoque, borde de luz y sombra suave.
+   Un único estilo de botón, en el azul oscuro de la marca.
+   Se importa el último para fijar tokens y componentes.
+   ========================================================================== */
+
+/* ─── Tokens · claro ─────────────────────────────────────────────────────── */
+:root {
+  --radius: 1rem;
+
+  /* Escala de superficies (se mantiene el nombre por compatibilidad) */
+  --m3-surface-lowest: oklch(1 0 0 / 0.72);
+  --m3-surface-low: oklch(1 0 0 / 0.6);
+  --m3-surface: oklch(0.97 0.006 258 / 0.55);
+  --m3-surface-high: oklch(0.94 0.01 258 / 0.55);
+  --m3-surface-highest: oklch(0.91 0.014 258 / 0.6);
+  --m3-elev-1: 0 4px 14px -6px oklch(0.3 0.08 262 / 0.18);
+  --m3-elev-2: 0 10px 26px -10px oklch(0.3 0.08 262 / 0.24);
+  --m3-elev-3: 0 18px 44px -14px oklch(0.3 0.08 262 / 0.3);
+
+  --foreground: oklch(0.2 0.03 262);
+  --ink: oklch(0.2 0.03 262);
+  --ink-2: oklch(0.4 0.03 262);
+  --ink-3: oklch(0.5 0.025 262);
+
+  --card: oklch(1 0 0 / 0.62);
+  --card-foreground: var(--ink);
+  --surface-2: oklch(1 0 0 / 0.45);
+  --popover: oklch(1 0 0 / 0.78);
+  --popover-foreground: var(--ink);
+
+  /* Azul oscuro de la marca: único color de los botones */
+  --primary: oklch(0.45 0.15 264);
+  --primary-foreground: oklch(1 0 0);
+  --primary-glow: oklch(0.58 0.14 258);
+  --blue-600: oklch(0.42 0.15 266);
+
+  /* Acentos y contenedores: tinte azul neutro (sin lavanda/rosado) */
+  --accent: oklch(0.45 0.15 264 / 0.12);
+  --accent-foreground: oklch(0.38 0.15 264);
+  --secondary: oklch(1 0 0 / 0.5);
+  --secondary-foreground: oklch(0.28 0.04 262);
+  --muted: oklch(1 0 0 / 0.45);
+  --muted-foreground: oklch(0.46 0.025 262);
+
+  --line: oklch(1 0 0 / 0.65);
+  --line-strong: oklch(0.45 0.08 262 / 0.28);
+  --border: var(--line);
+  --input: oklch(0.45 0.08 262 / 0.25);
+  --ring: oklch(0.45 0.15 264 / 0.45);
+
+  --destructive: oklch(0.55 0.2 25);
+  --destructive-foreground: oklch(1 0 0);
+  --success: oklch(0.55 0.15 155);
+  --warn: oklch(0.72 0.15 80);
+  --success-ink: oklch(0.5 0.13 155);
+  --error-ink: oklch(0.5 0.19 25);
+  --warn-ink: oklch(0.5 0.11 70);
+
+  --shadow-sm: var(--m3-elev-1);
+  --shadow-md: var(--m3-elev-1);
+  --shadow-lg: var(--m3-elev-2);
+  --shadow-xl: var(--m3-elev-3);
+  --shadow-float: var(--m3-elev-3);
+  --shadow-glow: 0 10px 28px -10px oklch(0.45 0.15 264 / 0.45);
+
+  /* Cristal */
+  --glass-fill: oklch(1 0 0 / 0.55);
+  --glass-fill-strong: oklch(1 0 0 / 0.72);
+  --glass-fill-soft: oklch(1 0 0 / 0.38);
+  --glass-edge-muted: oklch(1 0 0 / 0.7);
+  --glass-highlight: inset 0 1px 0 oklch(1 0 0 / 0.75);
+  --glass-shadow: var(--m3-elev-1);
+  --glass-blur: blur(18px) saturate(170%);
+  --glass-hot-edge: oklch(1 0 0 / 0.9);
+  --glass-blue-edge: oklch(0.45 0.15 264 / 0.3);
+  --glass-deep-shadow: var(--m3-elev-3);
+  --glass-control-shadow: var(--m3-elev-1);
+  --glass-base: var(--canvas);
+  --asternal-control-gradient: none;
+
+  /* Botón de cristal azul */
+  --glass-btn-fill: linear-gradient(180deg, oklch(0.52 0.15 264 / 0.88), oklch(0.42 0.15 264 / 0.92));
+
+  /* Asternal Plus */
+  --plus: oklch(0.52 0.1 210);
+  --plus-on-primary: oklch(1 0 0);
+  --plus-container: oklch(0.9 0.05 205 / 0.6);
+  --plus-on-container: oklch(0.28 0.07 210);
+  --plus-outline: oklch(0.66 0.09 208);
+  --plus-frame-aurora: oklch(0.7 0.13 205);
+  --plus-frame-ocean: oklch(0.62 0.15 240);
+  --plus-frame-ice: oklch(0.82 0.08 200);
+  --plus-frame-neon: oklch(0.75 0.15 192);
+}
+
+/* ─── Tokens · oscuro ────────────────────────────────────────────────────── */
+.dark {
+  --m3-surface-lowest: oklch(0.2 0.03 262 / 0.7);
+  --m3-surface-low: oklch(0.22 0.03 262 / 0.55);
+  --m3-surface: oklch(0.24 0.03 262 / 0.5);
+  --m3-surface-high: oklch(0.28 0.03 262 / 0.55);
+  --m3-surface-highest: oklch(0.32 0.03 262 / 0.6);
+  --m3-elev-1: 0 4px 14px -6px oklch(0 0 0 / 0.5);
+  --m3-elev-2: 0 10px 26px -10px oklch(0 0 0 / 0.55);
+  --m3-elev-3: 0 18px 44px -14px oklch(0 0 0 / 0.6);
+
+  --foreground: oklch(0.94 0.01 262);
+  --ink: oklch(0.94 0.01 262);
+  --ink-2: oklch(0.8 0.015 262);
+  --ink-3: oklch(0.65 0.02 262);
+
+  --card: oklch(0.24 0.03 262 / 0.5);
+  --surface-2: oklch(0.26 0.03 262 / 0.45);
+  --popover: oklch(0.2 0.03 262 / 0.82);
+
+  --primary: oklch(0.5 0.16 264);
+  --primary-foreground: oklch(1 0 0);
+  --primary-glow: oklch(0.62 0.14 258);
+
+  --accent: oklch(0.6 0.15 264 / 0.2);
+  --accent-foreground: oklch(0.86 0.06 262);
+  --secondary: oklch(1 0 0 / 0.07);
+  --secondary-foreground: oklch(0.9 0.02 262);
+  --muted: oklch(1 0 0 / 0.06);
+  --muted-foreground: oklch(0.74 0.015 262);
+
+  --line: oklch(1 0 0 / 0.12);
+  --line-strong: oklch(1 0 0 / 0.22);
+  --input: oklch(1 0 0 / 0.18);
+  --ring: oklch(0.62 0.15 264 / 0.6);
+
+  --destructive: oklch(0.65 0.18 25);
+  --destructive-foreground: oklch(1 0 0);
+  --success: oklch(0.78 0.14 155);
+  --warn: oklch(0.85 0.13 80);
+  --success-ink: oklch(0.82 0.14 155);
+  --error-ink: oklch(0.8 0.14 25);
+  --warn-ink: oklch(0.86 0.12 88);
+
+  --glass-fill: oklch(0.25 0.03 262 / 0.5);
+  --glass-fill-strong: oklch(0.22 0.03 262 / 0.7);
+  --glass-fill-soft: oklch(0.28 0.03 262 / 0.35);
+  --glass-edge-muted: oklch(1 0 0 / 0.12);
+  --glass-highlight: inset 0 1px 0 oklch(1 0 0 / 0.1);
+  --glass-hot-edge: oklch(1 0 0 / 0.22);
+
+  --plus: oklch(0.8 0.08 200);
+  --plus-on-primary: oklch(0.22 0.05 210);
+  --plus-container: oklch(0.32 0.06 210 / 0.6);
+  --plus-on-container: oklch(0.9 0.05 200);
+  --plus-outline: oklch(0.75 0.08 205);
+}
+
+/* ─── Base ───────────────────────────────────────────────────────────────── */
+body {
+  background:
+    radial-gradient(60rem 40rem at 10% -10%, oklch(0.45 0.15 264 / 0.16), transparent 60%),
+    radial-gradient(50rem 36rem at 110% 10%, oklch(0.72 0.08 236 / 0.18), transparent 60%),
+    radial-gradient(44rem 30rem at 50% 120%, oklch(0.58 0.14 258 / 0.12), transparent 60%),
+    var(--canvas) !important;
+  background-attachment: fixed !important;
+  color: var(--foreground);
+}
+
+/* ─── Cristal en todo: superficies, tarjetas, menús, diálogos, campos ────── */
+:is(.glass, .glass-surface, .glass-control, .glass-menu, .glass-header,
+  .panel, .surface, .surface-2, .neu-raised, .neu-inset,
+  .bg-card, .bg-popover, .bg-background, .bg-surface-2, .bg-muted, .bg-secondary,
+  [role="dialog"], [role="menu"], [role="listbox"], [data-radix-popper-content-wrapper] > *,
+  .m3-card, .m3-card-outlined, .m3-surface-lowest, .m3-surface-highest,
+  .m3-chip, .m3-list-item,
+  .plus-glass-hero, .plus-glass-card, .plus-glass-note,
+  .notification-summary-surface, .notification-category-panel, .notification-empty-state) {
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+}
+
+:is(.glass, .glass-surface, .glass-menu, .panel, .surface, .neu-raised,
+  .m3-card, .m3-card-outlined, .bg-card, .bg-popover,
+  [role="dialog"], [role="menu"], [role="listbox"],
+  .plus-glass-hero, .plus-glass-card, .plus-glass-note,
+  .notification-summary-surface, .notification-category-panel, .notification-empty-state) {
+  border-color: var(--glass-edge-muted);
+  box-shadow: var(--glass-highlight), var(--glass-shadow);
+}
+
+[role="dialog"], [role="menu"], [role="listbox"] {
+  background-color: var(--popover);
+}
+
+:is(input, textarea, select) {
+  border-radius: 0.875rem;
+  background-color: var(--glass-fill-soft);
+  border-color: var(--input);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+:is(input, textarea, select):focus-visible {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--ring);
+}
+input[type="checkbox"], input[type="radio"], input[type="range"], input[type="color"] {
+  backdrop-filter: none;
+  background-color: initial;
+}
+.search-field input:focus-visible {
+  border-color: transparent;
+  box-shadow: none;
+  outline: none;
+}
+
+/* ─── Botón único: cristal azul oscuro ───────────────────────────────────── */
+:is(button, a)[class~="bg-primary"],
+.btn-grad,
+.grad-brand,
+.m3-btn {
+  background-image: var(--glass-btn-fill) !important;
+  background-color: var(--primary) !important;
+  color: var(--primary-foreground) !important;
+  border: 1px solid oklch(1 0 0 / 0.28) !important;
+  box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.35), 0 8px 22px -10px oklch(0.45 0.15 264 / 0.6) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  backdrop-filter: blur(12px) saturate(160%);
+  transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
+}
+:is(button, a)[class~="bg-primary"]:hover,
+.btn-grad:hover, .grad-brand:hover, .m3-btn:hover {
+  filter: brightness(1.08);
+  box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.4), 0 12px 28px -10px oklch(0.45 0.15 264 / 0.7) !important;
+}
+:is(button, a)[class~="bg-primary"]:active,
+.btn-grad:active, .grad-brand:active, .m3-btn:active {
+  transform: scale(0.98);
+}
+.m3-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  min-height: 2.5rem; padding: 0 1.25rem; border-radius: 999px;
+  font-size: .875rem; font-weight: 500;
+}
+
+/* Botones secundarios / contorno / fantasma / icono: cristal claro */
+.glass-btn, .glass-control, .neu-btn, .m3-btn-outlined, .m3-icon-btn,
+button[class~="border-input"], button[class~="bg-secondary"], button[class~="bg-muted"],
+button[class~="bg-accent"] {
+  background-color: var(--glass-fill) !important;
+  border: 1px solid var(--glass-edge-muted) !important;
+  box-shadow: var(--glass-highlight), var(--glass-control-shadow);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+}
+.m3-btn.m3-btn-outlined {
+  background-image: none !important;
+  color: var(--primary) !important;
+}
+.m3-icon-btn {
+  display: inline-grid; place-items: center; width: 2.5rem; height: 2.5rem;
+  border-radius: 999px; color: var(--ink-2);
+}
+:is(.glass-btn, .glass-control, .m3-btn-outlined, .m3-icon-btn):hover {
+  background-color: var(--glass-fill-strong) !important;
+}
+
+/* Tintes de marca: cristal azulado, nunca lavanda */
+.grad-brand-soft, .grad-brand-deep {
+  background-image: none !important;
+  background-color: oklch(0.45 0.15 264 / 0.1) !important;
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+}
+
+/* ─── Clases utilitarias usadas por la app ───────────────────────────────── */
+.m3-surface-lowest { background-color: var(--m3-surface-lowest); }
+.m3-surface-highest { background-color: var(--m3-surface-highest); }
+.m3-elev-1 { box-shadow: var(--glass-highlight), var(--m3-elev-1); }
+.m3-elev-2 { box-shadow: var(--glass-highlight), var(--m3-elev-2); }
+.m3-elev-3 { box-shadow: var(--glass-highlight), var(--m3-elev-3); }
+.m3-card { background: var(--glass-fill); border: 1px solid var(--glass-edge-muted); border-radius: 1.25rem; }
+.m3-card-outlined { background: var(--glass-fill-soft); border: 1px solid var(--glass-edge-muted); border-radius: 1.25rem; }
+.m3-state { transition: background-color .15s ease; }
+.m3-state:hover { background-color: oklch(0.45 0.15 264 / 0.08); }
+.m3-state:active { background-color: oklch(0.45 0.15 264 / 0.14); }
+.m3-scroll-x { overflow-x: auto; scrollbar-width: none; }
+.m3-scroll-x::-webkit-scrollbar { display: none; }
+.m3-chip {
+  display: inline-flex; align-items: center; gap: .375rem; height: 2rem; padding: 0 .875rem;
+  border-radius: 999px; font-size: .8125rem; font-weight: 500;
+  background: var(--glass-fill); border: 1px solid var(--glass-edge-muted); color: var(--ink-2);
+}
+.m3-chip-selected { background: oklch(0.45 0.15 264 / 0.14); border-color: var(--glass-blue-edge); color: var(--accent-foreground); }
+.m3-list-item { display: flex; align-items: center; gap: .75rem; min-height: 3.5rem; padding: 0 1rem; border-radius: 1rem; }
+.m3-text-field, .m3-text-field-outlined { width: 100%; height: 3rem; padding: 0 1rem; border: 1px solid var(--input); }
+.m3-display-large { font-size: 3.5rem; line-height: 4rem; font-weight: 400; }
+.m3-headline-small { font-size: 1.5rem; line-height: 2rem; font-weight: 500; }
+.m3-title-medium { font-size: 1rem; line-height: 1.5rem; font-weight: 500; }
+.m3-body-medium { font-size: .875rem; line-height: 1.25rem; }
+.m3-body-small { font-size: .75rem; line-height: 1rem; }
+.m3-label-large { font-size: .875rem; line-height: 1.25rem; font-weight: 500; }
+.m3-label-small { font-size: .6875rem; line-height: 1rem; font-weight: 500; }
+
+/* ─── Asternal Plus ──────────────────────────────────────────────────────── */
+.plus-page { --primary: var(--plus); --primary-foreground: var(--plus-on-primary); }
+.plus-page { --glass-btn-fill: linear-gradient(180deg, oklch(0.58 0.1 210 / 0.9), oklch(0.48 0.1 210 / 0.92)); }
+.profile-plus-benefits { border-color: var(--plus-outline) !important; background: var(--plus-container) !important; backdrop-filter: var(--glass-blur); }
+.profile-plus-benefits-icon { background: var(--plus) !important; color: var(--plus-on-primary); }
+.profile-plus-benefits-chevron { color: var(--plus) !important; }
+
+/* ─── Notificaciones ─────────────────────────────────────────────────────── */
+.notification-filter-control-active {
+  background-color: oklch(0.45 0.15 264 / 0.14) !important;
+  box-shadow: inset 3px 0 0 var(--primary) !important;
+}
+.notification-event-row-unread { background-color: oklch(0.45 0.15 264 / 0.08) !important; }
+
+/* ─── Accesibilidad ──────────────────────────────────────────────────────── */
+:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :root { --card: oklch(1 0 0 / 0.95); --popover: oklch(1 0 0); }
+  .dark { --card: oklch(0.22 0.03 262 / 0.95); --popover: oklch(0.2 0.03 262); }
+}

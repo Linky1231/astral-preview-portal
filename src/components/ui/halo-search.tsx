@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
  * Campo de búsqueda M3.
  *
  * Misma forma, borde y foco que el resto de campos de la app (los que fija
- * `src/material3.css`): borde `line-strong`, radio `--radius`, superficie
+ * `src/glass.css`): borde `line-strong`, radio `--radius`, superficie
  * `card` y anillo de foco M3 de 3px en `--ring`. El tratamiento de foco vive
  * en el contenedor (`focus-within`), y el `<input>` interno queda sin contorno
  * ni sombra propios: así no aparece un recuadro dentro del campo ni ningún
@@ -66,7 +66,7 @@ export const HaloSearchInput = React.forwardRef<
     <div
       className={cn(
         // `.search-field` neutraliza el anillo propio del `<input>` interno
-        // (material3.css): el único contorno del campo es este borde.
+        // (glass.css): el único contorno del campo es este borde.
         "search-field group relative flex h-12 items-center gap-2.5 rounded-xl border px-4",
         "border-line-strong transition-[border-color,background-color] duration-200 ease-[var(--ease-out-smooth)]",
         blobTranslucent ? "bg-muted" : "bg-card",
