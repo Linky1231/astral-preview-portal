@@ -388,13 +388,16 @@ function HomePage() {
             <div className="text-[10px] sm:text-[11px] text-ink-3 truncate mt-1">@{me?.username ?? "…"}</div>
           </div>
           {typeof me?.orbes === "number" && me?.show_orbes !== false && (
-            <div
+            <Button
+              variant="outline"
+              onClick={() => navigate({ to: "/orbes" })}
+              aria-label={`Ver mis orbes: ${me.orbes}`}
               title={`${me.orbes} orbes`}
-              className="m3-chip h-8 sm:h-9 bg-accent text-accent-foreground border-transparent shrink-0 select-none"
+              className="h-8 sm:h-9 rounded-full px-3 text-accent-foreground shrink-0 select-none"
             >
               <Sparkles size={12} className="text-accent-foreground shrink-0" fill="currentColor" />
               <span className="text-[11px] sm:text-xs font-display font-semibold tabular-nums">{me.orbes}</span>
-            </div>
+            </Button>
           )}
           <Button onClick={openMenu} title="Menú" aria-label="Menú" variant="outline" size="icon"
             className="h-10 w-10 rounded-full text-ink-2 shrink-0">
@@ -765,8 +768,8 @@ function HomePage() {
 
       {/* Bottom Navigation */}
       {/* Navegación de cristal con una acción de creación en azul de marca. */}
-      <nav className="fixed bottom-0 inset-x-0 z-30 bg-card border-t border-line" style={{ paddingBottom: "env(safe-area-inset-bottom)" }} aria-label="Navegación principal">
-        <div className="max-w-2xl md:max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto px-3 py-2">
+      <nav className="home-bottom-nav fixed bottom-0 inset-x-0 z-30 bg-card border-t border-line" aria-label="Navegación principal">
+        <div className="max-w-2xl md:max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto px-3 py-1">
           {/* Tabs with gray selector — Inicio | Publicaciones | +Crear | Tienda | Perfil */}
           <div className="grid grid-cols-5 rounded-full p-0.5 relative">
             {/* Single sliding pill — GPU-composited transform, no layout reflow */}
