@@ -299,7 +299,7 @@ export const PostCard = memo(function PostCard({
               @{author?.username ?? "?"} · <span className="text-primary font-medium">{timeAgo(post.created_at)}</span>
             </div>
           </Link>
-          <Button variant="ghost" type="button" ref={menu.anchorRef} onClick={menu.toggle}
+          <Button variant="ghost" size="icon" type="button" ref={menu.anchorRef} onClick={menu.toggle}
             className="shrink-0 w-9 h-9 rounded-lg border border-border text-primary-glow grid place-items-center transition-[transform,background-color,color] duration-150 ease-out pointer-fine:hover:bg-primary/10 pointer-fine:hover:text-primary active:scale-[0.94]"
             aria-label="Menú de la publicación">
             <MoreHorizontal size={15} />

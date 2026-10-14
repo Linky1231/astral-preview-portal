@@ -82,7 +82,7 @@ export function CommentsTray({
               {authorUsername ? `Conversación en la publicación de @${authorUsername}` : "Conversación de la publicación"}
             </p>
           </div>
-          <Button variant="outline"
+          <Button variant="outline" size="icon"
             type="button"
             onClick={onClose}
             aria-label="Cerrar la bandeja de comentarios"

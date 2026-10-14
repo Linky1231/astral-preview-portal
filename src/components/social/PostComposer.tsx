@@ -312,7 +312,7 @@ export function PostComposer({ onCreated }: { onCreated: () => void }) {
             {previews.map((url, i) => (
               <div key={url} className="relative rounded-xl overflow-hidden bg-muted/30 border border-border/50 group/media">
                 {mediaType === "video" ? <video src={url} className="w-full max-h-64 object-cover" muted /> : <img src={url} alt="" className="w-full max-h-64 object-cover transition-transform duration-500 group-hover/media:scale-[1.02]" />}
-                <Button type="button" variant="ghost" aria-label={`Quitar archivo ${i + 1}`} onClick={() => removeFile(i)} className="absolute top-2 right-2 w-7 h-7 rounded-lg bg-popover text-popover-foreground grid place-items-center active:scale-[0.92] transition-transform duration-200 ease-out shadow-md backdrop-blur-sm">
+                <Button type="button" variant="ghost" size="icon" aria-label={`Quitar archivo ${i + 1}`} onClick={() => removeFile(i)} className="absolute top-2 right-2 w-7 h-7 rounded-lg bg-popover text-popover-foreground grid place-items-center active:scale-[0.92] transition-transform duration-200 ease-out shadow-md backdrop-blur-sm">
                   <X size={14} />
                 </Button>
               </div>
