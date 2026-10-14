@@ -42,7 +42,7 @@ function ImageViewer({
         <div className="flex items-center gap-2">
           <a href={src} download target="_blank" rel="noopener"
             onClick={e => e.stopPropagation()}
-            size="icon" className="w-8 h-8 shrink-0 rounded-lg bg-muted/30 grid place-items-center hover:bg-muted/50 transition">
+            aria-label="Descargar imagen" className="w-8 h-8 shrink-0 rounded-lg bg-muted/30 grid place-items-center hover:bg-muted/50 transition">
             <Download size={14} className="text-foreground" />
           </a>
           <Button variant="outline" size="icon" type="button" aria-label="Cerrar ventana" onClick={onClose}
@@ -551,7 +551,7 @@ export function StoreSection({ myId, isMod: _isMod, onRefresh }: {
 
       {/* Buy Dialog */}
       {buyPost && myId && balance !== null && (
-        <StoreOverlay label="Confirmar compra" onClose={() => setBuyPost(null)}><BuyDialog post={buyPost} myId={myId} balance={balance} onClose={() => setBuyPost(null)} onBought={handleBuy} /></StoreOverlay>
+        <StoreOverlay foreground label="Confirmar compra" onClose={() => setBuyPost(null)}><BuyDialog post={buyPost} myId={myId} balance={balance} onClose={() => setBuyPost(null)} onBought={handleBuy} /></StoreOverlay>
       )}
 
       {/* Detail Modal */}
@@ -591,7 +591,7 @@ export function StoreSection({ myId, isMod: _isMod, onRefresh }: {
               <section className="min-w-0 overflow-hidden">
                 <div className="aspect-square min-h-0 bg-muted/30 p-3 sm:p-5 grid place-items-center">
                   {detailImage ? (
-                    <img src={detailImage} alt={detailTitle} className="min-w-0 max-w-full w-full h-full object-contain rounded-xl" />
+                    <StoreImage src={detailImage} alt={detailTitle} className="min-h-0 min-w-0 max-w-full w-full h-full object-contain rounded-xl" />
                   ) : (
                     <div className="text-center text-muted-foreground/60 space-y-2"><Package size={34} className="mx-auto" /><p className="text-xs">Esta obra no incluye una imagen disponible.</p></div>
                   )}

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Package } from "lucide-react";
 
-export function StoreOverlay({ children, onClose, label }: { children: ReactNode; onClose: () => void; label: string }) {
+export function StoreOverlay({ children, onClose, label, foreground = false }: { children: ReactNode; onClose: () => void; label: string; foreground?: boolean }) {
   const closeRef = useRef(onClose);
   const container = useRef<HTMLDivElement>(null);
   useEffect(() => { closeRef.current = onClose; });
@@ -27,7 +27,7 @@ export function StoreOverlay({ children, onClose, label }: { children: ReactNode
       if (previous instanceof HTMLElement) previous.focus();
     };
   }, []);
-  return createPortal(<div ref={container} tabIndex={-1} role="dialog" aria-modal="true" aria-label={label} className="relative z-[140] outline-none">{children}</div>, document.body);
+  return createPortal(<div ref={container} tabIndex={-1} role="dialog" aria-modal="true" aria-label={label} className={`fixed inset-0 h-dvh outline-none ${foreground ? "z-[150]" : "z-[140]"}`}>{children}</div>, document.body);
 }
 
 export function StoreImage({ src, alt, className }: { src: string | null; alt: string; className?: string }) {
