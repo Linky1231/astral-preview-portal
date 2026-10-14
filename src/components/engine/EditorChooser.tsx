@@ -144,7 +144,7 @@ export function EditorChooser() {
           className="no-scrollbar relative flex w-full px-[7%] sm:px-[16%] md:px-0 snap-x snap-mandatory overflow-x-auto overflow-y-hidden overscroll-x-contain scroll-smooth py-2 motion-reduce:scroll-auto"
         >
           {/* ─── Editor de plataformas (nativo) ─── */}
-          <div className="w-[86%] shrink-0 snap-center px-3 sm:w-[68%] md:w-1/2">
+          <div className="w-full shrink-0 snap-center px-2 md:px-3 md:w-1/2">
             <section className="glass-surface no-scrollbar flex max-h-full flex-col overflow-y-auto rounded-2xl p-4 sm:p-5">
               <div className="flex items-center justify-between gap-3">
                 <div className="grid h-10 w-10 place-items-center rounded-xl border border-primary/15 bg-primary/10">
@@ -183,7 +183,7 @@ export function EditorChooser() {
           </div>
 
           {/* ─── Asternal Beta (motor propio en pruebas) ─── */}
-          <div className="w-[86%] shrink-0 snap-center px-3 sm:w-[68%] md:w-1/2">
+          <div className="w-full shrink-0 snap-center px-2 md:px-3 md:w-1/2">
             <section className="glass-surface no-scrollbar flex max-h-full flex-col overflow-y-auto rounded-2xl p-4 sm:p-5">
               <div className="flex items-center justify-between gap-3">
                 <div className="grid h-10 w-10 place-items-center rounded-xl border border-accent/25 bg-accent/10">
@@ -223,7 +223,7 @@ export function EditorChooser() {
           </div>
 
           {/* ─── Asternal V2 (GDevelop) ─── */}
-          <div className="w-[86%] shrink-0 snap-center px-3 sm:w-[68%] md:w-1/2">
+          <div className="w-full shrink-0 snap-center px-2 md:px-3 md:w-1/2">
             <section className="glass-surface no-scrollbar flex max-h-full flex-col overflow-y-auto rounded-2xl p-4 sm:p-5">
               <div className="flex items-center justify-between gap-3">
                 <div className="grid h-10 w-10 place-items-center rounded-xl border border-accent/25 bg-accent/15">
