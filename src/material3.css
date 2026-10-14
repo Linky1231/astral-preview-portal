@@ -1,0 +1,1005 @@
+/* ============================================================================
+   ASTERNAL · MATERIAL 3 — sistema de diseño ÚNICO
+   ───────────────────────────────────────────────
+   Material 3 (https://m3.material.io/) es la única interfaz de la aplicación.
+   No hay variantes: este archivo es la fuente de verdad visual y se importa
+   el último para fijar los tokens y el aspecto de los componentes.
+
+   Contenido:
+     1. Tokens · esquema claro
+     2. Tokens · esquema oscuro
+     3. Base: lienzo, tipografía y campos
+     4. Botones de marca (filled button)
+     5. Superficies y contenedores
+     6. Cabecera, menú lateral, diálogos y pestañas
+     7. Estados y movimiento
+     8. Excepción de producto: Asternal Plus
+     9. Contenido navegable (notificaciones)
+    10. Accesibilidad
+    11. Escala de forma M3 (y alineación de las utilidades de la app)
+    12. Escala tipográfica M3
+    13. Elevación M3 0-5
+    14. Estado, foco, toque y deshabilitado
+    15. Componentes M3 reutilizables
+    16. Coherencias corregidas
+   ========================================================================== */
+
+/* ─── 1. Tokens · esquema claro ───────────────────────────────────────────── */
+:root {
+  /* Forma (M3 shape scale) */
+  --radius: 1rem;
+
+  /* Elevación M3 (ambient + tonal) */
+  --m3-elev-1: 0 1px 2px 0 oklch(0 0 0 / 0.28), 0 1px 3px 1px oklch(0 0 0 / 0.12);
+  --m3-elev-2: 0 1px 2px 0 oklch(0 0 0 / 0.28), 0 2px 6px 2px oklch(0 0 0 / 0.12);
+  --m3-elev-3: 0 4px 8px 3px oklch(0 0 0 / 0.14), 0 1px 3px 0 oklch(0 0 0 / 0.28);
+
+  /* Superficies M3 (surface-container scale) */
+  --m3-surface-lowest: oklch(1 0 0);
+  --m3-surface-low: oklch(0.985 0.003 262);
+  --m3-surface: oklch(0.97 0.005 262);
+  --m3-surface-high: oklch(0.95 0.007 262);
+  --m3-surface-highest: oklch(0.93 0.009 262);
+
+  /* Color roles · claro (matiz de marca 262) */
+  --canvas: var(--m3-surface);
+  --background: var(--canvas);
+  --foreground: oklch(0.22 0.02 262);
+  --ink: oklch(0.22 0.02 262);
+  --ink-2: oklch(0.42 0.02 262);
+  --ink-3: oklch(0.5 0.02 262);
+
+  --card: var(--m3-surface-low);
+  --card-foreground: var(--ink);
+  --surface-2: var(--m3-surface);
+  --popover: var(--m3-surface-low);
+  --popover-foreground: var(--ink);
+
+  --primary: oklch(0.505 0.15 262);
+  --primary-foreground: oklch(1 0 0);
+  --primary-glow: oklch(0.7 0.1 262);
+  --blue-600: oklch(0.42 0.15 266);
+  --azure: oklch(0.72 0.08 236);
+  --violet-accent: oklch(0.63 0.15 300);
+  --cyan-accent: oklch(0.75 0.07 210);
+
+  --accent: oklch(0.9 0.055 262);              /* primary-container */
+  --accent-foreground: oklch(0.28 0.12 262);
+  --secondary: oklch(0.93 0.03 262);           /* secondary-container */
+  --secondary-foreground: oklch(0.31 0.07 262);
+  --muted: var(--m3-surface-high);
+  --muted-foreground: oklch(0.45 0.02 262);
+
+  --line: oklch(0.86 0.014 262);               /* outline-variant */
+  --line-strong: oklch(0.75 0.017 262);        /* outline */
+  --border: var(--line);
+  --input: oklch(0.75 0.017 262);
+  --ring: oklch(0.505 0.15 262 / 0.5);
+  --grid: oklch(0.87 0.012 262 / 0.55);
+
+  --destructive: oklch(0.55 0.2 25);
+  --destructive-foreground: oklch(1 0 0);
+  --success: oklch(0.55 0.15 155);
+  --warn: oklch(0.72 0.15 80);
+  /* Tinta de estado: el tono con el que cada rol se LEE sobre superficie clara
+     (M3 no tiene rol «success», así que se completa el par de estado). */
+  --success-ink: oklch(0.5 0.13 155);
+  --error-ink: oklch(0.5 0.19 25);
+  --warn-ink: oklch(0.5 0.11 70);
+
+  --shadow-xs: 0 1px 2px 0 oklch(0 0 0 / 0.06);
+  --shadow-sm: var(--m3-elev-1);
+  --shadow-md: var(--m3-elev-1);
+  --shadow-lg: var(--m3-elev-2);
+  --shadow-xl: var(--m3-elev-3);
+  --shadow-float: var(--m3-elev-3);
+  --shadow-glow: var(--m3-elev-2);
+
+  /* Materia: superficies opacas. Los tokens de vidrio quedan neutralizados
+     para que las utilidades existentes (glass-*, panel, neu-*) rendericen
+     como superficies M3 y no como cristal. */
+  --glass-fill: var(--m3-surface-low);
+  --glass-fill-strong: var(--m3-surface-low);
+  --glass-fill-soft: var(--m3-surface);
+  --glass-edge-muted: var(--line);
+  --glass-highlight: none;
+  --glass-shadow: var(--m3-elev-1);
+  --glass-blur: none;
+  --glass-hot-edge: var(--line-strong);
+  --glass-blue-edge: var(--line);
+  --glass-deep-shadow: var(--m3-elev-3);
+  --glass-control-shadow: none;
+  --glass-base: var(--canvas);
+
+  /* M3: relleno plano de color para controles de marca (sin degradados) */
+  --asternal-control-gradient: none;
+
+  /* ── Asternal Plus · paleta Material 3 del producto ──
+     Matiz cian propio, expresado en roles y TONOS SÓLIDOS (sin degradados).
+     Los marcos de perfil usan estos mismos tonos como color plano. */
+  --plus: oklch(0.52 0.1 210);                 /* primary (tono 40) */
+  --plus-on-primary: oklch(1 0 0);
+  --plus-container: oklch(0.9 0.05 205);       /* primary-container (tono 90) */
+  --plus-on-container: oklch(0.28 0.07 210);
+  --plus-outline: oklch(0.66 0.09 208);        /* outline sólido (tono 60) */
+  /* Marcos de perfil: tonos claros pero con contraste entre sí, para que el
+     anillo se distinga de la foto y de la superficie en cualquier tema. */
+  --plus-frame-aurora: oklch(0.7 0.13 205);
+  --plus-frame-ocean: oklch(0.62 0.15 240);
+  --plus-frame-ice: oklch(0.82 0.08 200);
+  --plus-frame-neon: oklch(0.75 0.15 192);
+
+  /* Tipografía M3 (Roboto) */
+  --font-display: "Roboto", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
+  --font-sans: "Roboto", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
+}
+
+/* ─── 2. Tokens · esquema oscuro ──────────────────────────────────────────── */
+.dark {
+  --m3-surface-lowest: oklch(0.11 0.012 262);
+  --m3-surface-low: oklch(0.15 0.013 262);
+  --m3-surface: oklch(0.17 0.014 262);
+  --m3-surface-high: oklch(0.21 0.015 262);
+  --m3-surface-highest: oklch(0.25 0.016 262);
+
+  --canvas: var(--m3-surface);
+  --background: var(--canvas);
+  --foreground: oklch(0.93 0.01 262);
+  --ink: oklch(0.93 0.01 262);
+  --ink-2: oklch(0.78 0.015 262);
+  --ink-3: oklch(0.62 0.02 262);
+
+  --card: var(--m3-surface-low);
+  --card-foreground: var(--ink);
+  --surface-2: var(--m3-surface);
+  --popover: var(--m3-surface-high);
+  --popover-foreground: var(--ink);
+
+  --primary: oklch(0.78 0.12 262);
+  --primary-foreground: oklch(0.24 0.09 262);
+  --primary-glow: oklch(0.84 0.1 255);
+  --blue-600: oklch(0.68 0.14 266);
+  --azure: oklch(0.8 0.08 236);
+  --violet-accent: oklch(0.75 0.13 300);
+  --cyan-accent: oklch(0.85 0.07 210);
+
+  --accent: oklch(0.31 0.09 262);
+  --accent-foreground: oklch(0.9 0.05 262);
+  --secondary: oklch(0.32 0.04 262);
+  --secondary-foreground: oklch(0.9 0.03 262);
+  --muted: var(--m3-surface-high);
+  --muted-foreground: oklch(0.75 0.015 262);
+
+  --line: oklch(0.4 0.02 262);
+  --line-strong: oklch(0.55 0.02 262);
+  --border: var(--line);
+  --input: oklch(0.55 0.02 262);
+  --ring: oklch(0.78 0.12 262 / 0.6);
+  --grid: oklch(0.32 0.02 262 / 0.55);
+
+  --destructive: oklch(0.7 0.16 25);
+  --destructive-foreground: oklch(0.2 0.06 25);
+  --success: oklch(0.78 0.14 155);
+  --warn: oklch(0.85 0.13 80);
+  --success-ink: oklch(0.82 0.14 155);
+  --error-ink: oklch(0.8 0.14 25);
+  --warn-ink: oklch(0.86 0.12 88);
+
+  --shadow-xs: 0 1px 2px 0 oklch(0 0 0 / 0.4);
+  --shadow-sm: var(--m3-elev-1);
+  --shadow-md: var(--m3-elev-2);
+  --shadow-lg: var(--m3-elev-3);
+  --shadow-float: var(--m3-elev-3);
+  --shadow-glow: var(--m3-elev-2);
+
+  /* Plus · mismos roles, tonos oscuros (tono 80 / 30) */
+  --plus: oklch(0.8 0.08 200);
+  --plus-on-primary: oklch(0.22 0.05 210);
+  --plus-container: oklch(0.32 0.06 210);
+  --plus-on-container: oklch(0.9 0.05 200);
+  --plus-outline: oklch(0.75 0.08 205);
+  --plus-frame-aurora: oklch(0.82 0.11 200);
+  --plus-frame-ocean: oklch(0.72 0.12 235);
+  --plus-frame-ice: oklch(0.92 0.05 195);
+  --plus-frame-neon: oklch(0.86 0.13 185);
+}
+
+/* ─── 3. Base: lienzo, tipografía y campos ───────────────────────────────── */
+body {
+  /* M3: superficie plana, sin degradados ambientales */
+  background: var(--canvas) !important;
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+:is(button, input, select, textarea),
+:is(h1, h2, h3, h4, .font-display) {
+  font-family: var(--font-sans);
+}
+
+/* Campos de texto M3: contorno definido y anillo de foco de estado */
+:is(input, textarea, select) {
+  border-radius: 0.75rem;
+  border-color: var(--line-strong);
+  box-shadow: none;
+}
+
+:is(input, textarea, select):focus-visible {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--ring);
+}
+
+/* Buscador: el contenedor (`.search-field`) ya dibuja el único contorno del
+   campo; el <input> interno no añade un segundo anillo de foco dentro del
+   buscador (se veía como un selector duplicado). Sin capa, como el resto de
+   este archivo, para que gane a las utilidades de Tailwind. */
+.search-field input:focus-visible {
+  border-color: transparent;
+  box-shadow: none;
+  outline: none;
+}
+
+/* ─── 4. Botones de marca (M3 filled button) ─────────────────────────────── */
+/* Coincidencia EXACTA de clase (class~=) para el relleno de marca: así solo
+   entran los botones rellenos. Con class*= se colaban los tintes y los
+   estados (`bg-primary/10`, `hover:bg-primary`, `data-[active=true]:bg-primary`)
+   y quedaban pintados como bloque azul sólido. */
+:is(button, a)[class~="bg-primary"],
+.btn-grad,
+.grad-brand {
+  background-image: none !important;
+  background-color: var(--primary) !important;
+  border: none !important;
+  box-shadow: var(--m3-elev-1) !important;
+  backdrop-filter: none !important;
+  color: var(--primary-foreground) !important;
+}
+
+/* M3 filled button: radio completo (los bloques de marca conservan su forma) */
+:is(button, a)[class~="bg-primary"],
+.btn-grad {
+  border-radius: 999px !important;
+}
+
+/* Sin brillos ni capas de cristal: el estado se expresa con elevación */
+:is(button, a)[class~="bg-primary"]::after,
+.btn-grad::after,
+.grad-brand::after {
+  opacity: 0 !important;
+  background: transparent !important;
+}
+
+:is(button, a)[class~="bg-primary"]:hover,
+.btn-grad:hover,
+.grad-brand:hover {
+  box-shadow: var(--m3-elev-2) !important;
+}
+
+:is(button, a)[class~="bg-primary"]:active,
+.btn-grad:active,
+.grad-brand:active {
+  box-shadow: var(--m3-elev-1) !important;
+  transform: scale(0.98);
+}
+
+/* Fondos de marca diluidos (bg-primary/10, grad-brand-soft): tinte de
+   superficie M3, nunca un bloque sólido ni un degradado. */
+.grad-brand-soft,
+.grad-brand-deep {
+  background-image: none !important;
+  background-color: color-mix(in oklab, var(--primary) 8%, var(--canvas)) !important;
+}
+
+/* ─── 5. Superficies y contenedores ──────────────────────────────────────── */
+:is(.glass, .glass-surface, .glass-control, .glass-btn, .glass-menu,
+  .glass-header, .panel, .surface, .surface-2, .neu-raised, .neu-inset, .neu-btn) {
+  backdrop-filter: none !important;
+  border-color: var(--line) !important;
+  box-shadow: var(--m3-elev-1) !important;
+}
+
+/* Tarjetas y paneles M3: esquinas amplias sobre surface-container-low */
+:is(.glass-surface, .panel) {
+  border-radius: 1rem !important;
+  background-color: var(--card) !important;
+}
+
+/* Menús y láminas flotantes: elevación 3 */
+:is(.glass-menu, .glass-btn) {
+  background-color: var(--popover) !important;
+  border-radius: 1rem !important;
+  box-shadow: var(--m3-elev-3) !important;
+}
+
+/* Diálogos M3: 28dp de radio y superficie container-high */
+[role="dialog"] {
+  border-radius: 1.75rem !important;
+  background-color: var(--m3-surface-high) !important;
+  border-color: transparent !important;
+  box-shadow: var(--m3-elev-3) !important;
+}
+
+/* ─── 6. Cabecera, menú lateral y pestañas ───────────────────────────────── */
+:is(.app-header, .glass-header) {
+  background: var(--m3-surface) !important;
+  border-color: var(--line) !important;
+  box-shadow: var(--m3-elev-1) !important;
+  backdrop-filter: none !important;
+}
+
+/* Menú lateral: superficie M3; las opciones son filas navegables, no CTAs */
+.menu-drawer {
+  background: var(--m3-surface-low) !important;
+  border-color: var(--line) !important;
+  box-shadow: var(--m3-elev-3) !important;
+  backdrop-filter: none !important;
+}
+
+.menu-drawer .menu-section-list {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.menu-drawer .menu-action {
+  background: transparent !important;
+  border: 1px solid transparent;
+  box-shadow: none !important;
+  border-radius: 999px;
+}
+
+.menu-drawer .menu-action:hover {
+  background: color-mix(in oklab, var(--primary) 10%, transparent) !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.menu-drawer .menu-action:active { transform: scale(0.985); }
+
+/* Pestañas: contenedor M3 secondary, sin cristal */
+[role="tablist"] {
+  border-color: var(--line) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+/* Barras que se desplazan en horizontal (`chips`, pestañas, filtros…) y que
+   llevan botones con elevación M3. Un contenedor con `overflow` recorta en el
+   borde de su RELLENO, así que estas barras reservan aire vertical dentro de
+   sí mismas para que la sombra no se corte; el margen negativo compensa ese
+   relleno, de modo que la altura y la posición de la barra no cambian. */
+.m3-scroll-x {
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin-block: -0.75rem;
+  padding-block: 0.75rem;
+}
+
+/* ─── 7. Estados y movimiento ────────────────────────────────────────────── */
+/* Capa de estado M3: la elevación sube un nivel y no hay desplazamientos */
+.hover-lift:hover {
+  transform: none !important;
+  box-shadow: var(--m3-elev-2) !important;
+}
+
+/* ─── 8. Excepción de producto: Asternal Plus ────────────────────────────── */
+/* El acento propio de Plus se expresa en el lenguaje M3: su propio matiz
+   (cian) con los mismos roles, relleno plano y misma forma. */
+.plus-page {
+  --primary: var(--plus);
+  --primary-foreground: var(--plus-on-primary);
+}
+
+.plus-page :is(.plus-glass-hero, .plus-glass-card, .plus-glass-note, .plus-social-input) {
+  background: var(--card) !important;
+  border-color: var(--line) !important;
+  box-shadow: var(--m3-elev-1) !important;
+  backdrop-filter: none !important;
+}
+
+.plus-page .plus-choice {
+  background: var(--m3-surface-high) !important;
+  border-color: var(--line) !important;
+  box-shadow: none !important;
+  border-radius: 1rem;
+}
+
+.plus-page .plus-choice:hover:not(:disabled) {
+  background: var(--m3-surface-highest) !important;
+  border-color: var(--line-strong) !important;
+}
+
+.plus-page .plus-choice.border-primary,
+.plus-page .plus-choice:focus-visible {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 2px var(--ring) !important;
+}
+
+.profile-plus-benefits {
+  border-color: var(--plus-outline) !important;
+  background: var(--plus-container) !important;
+  box-shadow: var(--m3-elev-1) !important;
+}
+
+.profile-plus-benefits:hover {
+  border-color: var(--plus) !important;
+  box-shadow: var(--m3-elev-2) !important;
+}
+
+.profile-plus-benefits-icon {
+  background: var(--plus) !important;
+  border: none !important;
+  box-shadow: var(--m3-elev-1) !important;
+  color: var(--plus-on-primary);
+}
+
+.profile-plus-benefits-chevron { color: var(--plus) !important; }
+
+/* ─── 9. Contenido navegable (notificaciones) ────────────────────────────── */
+:is(.notification-summary-surface, .notification-category-panel,
+  .notification-empty-state, .notification-event-row) {
+  background-color: var(--card) !important;
+  border-color: var(--line) !important;
+  box-shadow: var(--m3-elev-1) !important;
+  backdrop-filter: none !important;
+}
+
+.notification-filter-control {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  color: var(--foreground) !important;
+}
+
+.notification-filter-control:hover {
+  background-color: color-mix(in oklab, var(--primary) 8%, transparent) !important;
+  border-color: transparent !important;
+}
+
+.notification-filter-control-active {
+  background-color: color-mix(in oklab, var(--primary) 14%, transparent) !important;
+  border-color: color-mix(in oklab, var(--primary) 34%, transparent) !important;
+  box-shadow: inset 3px 0 0 var(--primary) !important;
+}
+
+.notification-event-row { border-color: transparent !important; }
+.notification-event-row:hover { background-color: var(--m3-surface-high) !important; }
+.notification-event-row-unread { background-color: color-mix(in oklab, var(--primary) 8%, var(--card)) !important; }
+
+/* ─── 10. Accesibilidad ──────────────────────────────────────────────────── */
+/* El botón M3 expresa el estado con elevación, no con brillos: con el
+   movimiento reducido no hay ninguna transición. */
+@media (prefers-reduced-motion: reduce) {
+  :is(button, a)[class~="bg-primary"]::after,
+  .btn-grad::after,
+  .grad-brand::after {
+    transition: none;
+  }
+
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ═══════════ 11. ESCALA DE FORMA M3 ═══════════ */
+/* M3 define seis formas. Todo contenedor de la app cae en una de ellas: no hay
+   radios «a ojo», de modo que dos pantallas distintas no pueden discrepar. */
+:root {
+  --m3-shape-none: 0px;
+  --m3-shape-xs: 4px;
+  --m3-shape-sm: 8px;
+  --m3-shape-md: 12px;
+  --m3-shape-lg: 16px;
+  --m3-shape-xl: 28px;
+  --m3-shape-full: 999px;
+
+  --m3-outline: var(--line-strong);
+  --m3-outline-variant: var(--line);
+  --m3-scrim: oklch(0 0 0 / 0.32);
+}
+
+/* Las utilidades de Tailwind ya en uso se alinean a esa escala: así la app
+   entera comparte los mismos radios sin tocar cada pantalla. */
+.rounded-xs,
+.rounded-sm { border-radius: var(--m3-shape-xs); }
+.rounded-md { border-radius: var(--m3-shape-sm); }
+.rounded-lg { border-radius: var(--m3-shape-md); }
+.rounded-xl,
+.rounded-2xl { border-radius: var(--m3-shape-lg); }
+.rounded-3xl,
+.rounded-4xl { border-radius: var(--m3-shape-xl); }
+.rounded-full { border-radius: var(--m3-shape-full); }
+
+/* Lados sueltos: van después para que ganen solo cuando se piden. */
+.rounded-t-lg, .rounded-t-xl, .rounded-t-2xl { border-radius: var(--m3-shape-lg) var(--m3-shape-lg) 0 0; }
+.rounded-b-lg, .rounded-b-xl, .rounded-b-2xl { border-radius: 0 0 var(--m3-shape-lg) var(--m3-shape-lg); }
+.rounded-l-lg, .rounded-l-xl, .rounded-l-2xl { border-radius: var(--m3-shape-lg) 0 0 var(--m3-shape-lg); }
+.rounded-r-lg, .rounded-r-xl, .rounded-r-2xl { border-radius: 0 var(--m3-shape-lg) var(--m3-shape-lg) 0; }
+.rounded-t-sm, .rounded-t-md { border-radius: var(--m3-shape-sm) var(--m3-shape-sm) 0 0; }
+.rounded-b-sm, .rounded-b-md { border-radius: 0 0 var(--m3-shape-sm) var(--m3-shape-sm); }
+.rounded-l-sm, .rounded-l-md { border-radius: var(--m3-shape-sm) 0 0 var(--m3-shape-sm); }
+.rounded-r-sm, .rounded-r-md { border-radius: 0 var(--m3-shape-sm) var(--m3-shape-sm) 0; }
+
+/* Los radios «a ojo» (rounded-[22px], rounded-[32px]…) también caen en la
+   escala: en M3 no existe una forma fuera de ella. */
+[class*="rounded-["] { border-radius: var(--m3-shape-lg) !important; }
+
+/* ═══════════ 12. ESCALA TIPOGRÁFICA M3 ═══════════ */
+/* Roles exactos de M3 (tamaño / interlineado / peso / tracking). Se usan por
+   clase en lo nuevo y fijan el criterio de los títulos que ya existían. */
+.m3-display-large { font-family: var(--font-display); font-size: 3.5625rem; line-height: 4rem; font-weight: 400; letter-spacing: 0; }
+.m3-display-medium { font-family: var(--font-display); font-size: 2.8125rem; line-height: 3.25rem; font-weight: 400; letter-spacing: 0; }
+.m3-display-small { font-family: var(--font-display); font-size: 2.25rem; line-height: 2.75rem; font-weight: 400; letter-spacing: 0; }
+.m3-headline-large { font-family: var(--font-display); font-size: 2rem; line-height: 2.5rem; font-weight: 400; letter-spacing: 0; }
+.m3-headline-medium { font-family: var(--font-display); font-size: 1.75rem; line-height: 2.25rem; font-weight: 400; letter-spacing: 0; }
+.m3-headline-small { font-family: var(--font-display); font-size: 1.5rem; line-height: 2rem; font-weight: 400; letter-spacing: 0; }
+.m3-title-large { font-family: var(--font-display); font-size: 1.375rem; line-height: 1.75rem; font-weight: 400; letter-spacing: 0; }
+.m3-title-medium { font-family: var(--font-display); font-size: 1rem; line-height: 1.5rem; font-weight: 500; letter-spacing: 0.009375rem; }
+.m3-title-small { font-family: var(--font-display); font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; letter-spacing: 0.00625rem; }
+.m3-body-large { font-size: 1rem; line-height: 1.5rem; font-weight: 400; letter-spacing: 0.03125rem; }
+.m3-body-medium { font-size: 0.875rem; line-height: 1.25rem; font-weight: 400; letter-spacing: 0.015625rem; }
+.m3-body-small { font-size: 0.75rem; line-height: 1rem; font-weight: 400; letter-spacing: 0.025rem; }
+.m3-label-large { font-family: var(--font-display); font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; letter-spacing: 0.00625rem; }
+.m3-label-medium { font-family: var(--font-display); font-size: 0.75rem; line-height: 1rem; font-weight: 500; letter-spacing: 0.03125rem; }
+.m3-label-small { font-family: var(--font-display); font-size: 0.6875rem; line-height: 1rem; font-weight: 500; letter-spacing: 0.03125rem; }
+
+/* Los títulos usan los pesos de M3 (400/500), no 700 con tracking negativo:
+   la jerarquía de M3 se expresa con tamaño, color y espaciado. El tamaño de
+   cada título lo sigue decidiendo su utilidad (`text-2xl`, `text-sm`…). */
+:is(h1, h2, h3, h4, h5, h6) {
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+:is(h4, h5, h6) {
+  font-weight: 500;
+}
+
+/* M3 solo usa 400 y 500 (400 en display/headline/body, 500 en title/label). */
+.font-extrabold,
+.font-black,
+.font-bold,
+.font-semibold { font-weight: 500; }
+
+/* ═══════════ 13. ELEVACIÓN M3 0-5 ═══════════ */
+/* Seis niveles; las sombras de la app se reasignan a ellos para que no haya
+   dos profundidades distintas en la misma jerarquía. */
+:root {
+  --m3-elev-0: none;
+  --m3-elev-4: 0 6px 10px 4px oklch(0 0 0 / 0.15), 0 2px 3px 0 oklch(0 0 0 / 0.3);
+  --m3-elev-5: 0 8px 12px 6px oklch(0 0 0 / 0.15), 0 4px 4px 0 oklch(0 0 0 / 0.3);
+}
+
+.shadow-2xs,
+.shadow-xs,
+.shadow-sm,
+.shadow { box-shadow: var(--m3-elev-1); }
+.shadow-md { box-shadow: var(--m3-elev-2); }
+.shadow-lg { box-shadow: var(--m3-elev-2); }
+.shadow-xl,
+.shadow-2xl { box-shadow: var(--m3-elev-3); }
+
+/* La elevación también indica «esto flota»: sin sombras de color ni halos. */
+.hover-lift:hover { box-shadow: var(--m3-elev-2); }
+
+/* ═══════════ 14. ESTADO, FOCO, TOQUE Y DESHABILITADO ═══════════ */
+:root {
+  /* Capa de estado M3 (sobre el color «on» del contenedor). */
+  --m3-state-hover: 0.08;
+  --m3-state-focus: 0.10;
+  --m3-state-press: 0.10;
+  --m3-state-drag: 0.16;
+  --m3-disabled-content: 0.38;
+  --m3-disabled-container: 0.12;
+  /* Movimiento M3: duraciones y curvas estándar/énfasis. */
+  --m3-duration-short: 100ms;
+  --m3-duration-medium: 200ms;
+  --m3-duration-long: 400ms;
+  --m3-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --m3-ease-emphasized: cubic-bezier(0.05, 0.7, 0.1, 1);
+}
+
+/* Capa de estado sin `position` ni pseudos: un relleno interior que no choca
+   con la elevación de cada control. */
+.m3-state {
+  transition: background-color var(--m3-duration-short) var(--m3-ease-standard),
+    box-shadow var(--m3-duration-short) var(--m3-ease-standard);
+}
+
+.m3-state:hover {
+  box-shadow: inset 0 0 0 999px color-mix(in oklab, currentColor 8%, transparent);
+}
+
+.m3-state:active {
+  box-shadow: inset 0 0 0 999px color-mix(in oklab, currentColor 10%, transparent);
+}
+
+/* Foco M3: contorno de 2dp separado 2dp, en el color primario. */
+:is(button, a, [role="button"], [role="tab"], [role="menuitem"], summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Deshabilitado M3: el contenido baja al 38 %. */
+:is(button, [role="button"], a)[disabled],
+:is(button, [role="button"], a)[aria-disabled="true"] {
+  opacity: var(--m3-disabled-content);
+}
+
+/* Área táctil M3 de 48dp para los controles de icono. */
+@media (pointer: coarse) {
+  .m3-icon-btn { min-width: 3rem; min-height: 3rem; }
+}
+
+/* ═══════════ 15. COMPONENTES M3 REUTILIZABLES ═══════════ */
+/* Familia de botones. La app los usa por clase, así que el aspecto de una
+   acción es el mismo en cualquier pantalla. */
+.m3-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 2.5rem;
+  padding-inline: 1.5rem;
+  border: none;
+  border-radius: var(--m3-shape-full);
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.00625rem;
+  box-shadow: var(--m3-elev-0);
+  transition: box-shadow var(--m3-duration-short) var(--m3-ease-standard),
+    background-color var(--m3-duration-short) var(--m3-ease-standard);
+}
+
+.m3-btn:hover { box-shadow: var(--m3-elev-1); }
+.m3-btn:active { box-shadow: var(--m3-elev-0); }
+
+.m3-btn-tonal {
+  background-color: var(--secondary);
+  color: var(--secondary-foreground);
+}
+
+.m3-btn-elevated {
+  background-color: var(--m3-surface-low);
+  color: var(--primary);
+  box-shadow: var(--m3-elev-1);
+}
+
+.m3-btn-outlined {
+  background-color: transparent;
+  color: var(--primary);
+  border: 1px solid var(--m3-outline);
+}
+
+.m3-btn-outlined:hover { background-color: color-mix(in oklab, var(--primary) 8%, transparent); }
+
+.m3-btn-text {
+  background-color: transparent;
+  color: var(--primary);
+  padding-inline: 0.75rem;
+}
+
+.m3-btn-text:hover { background-color: color-mix(in oklab, var(--primary) 8%, transparent); }
+
+.m3-btn-danger {
+  background-color: var(--destructive);
+  color: var(--destructive-foreground);
+}
+
+/* Botón de icono: 40dp visuales, 48dp de toque en pantallas táctiles. */
+.m3-icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: none;
+  border-radius: var(--m3-shape-full);
+  background-color: transparent;
+  color: var(--foreground);
+  transition: background-color var(--m3-duration-short) var(--m3-ease-standard);
+}
+
+.m3-icon-btn:hover { background-color: color-mix(in oklab, currentColor 8%, transparent); }
+.m3-icon-btn:active { background-color: color-mix(in oklab, currentColor 10%, transparent); }
+.m3-icon-btn-tonal { background-color: var(--secondary); color: var(--secondary-foreground); }
+
+/* FAB M3: contenedor primary-container, forma large, elevación 3. */
+.m3-fab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  min-height: 3.5rem;
+  padding-inline: 1rem;
+  border: none;
+  border-radius: var(--m3-shape-lg);
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+  box-shadow: var(--m3-elev-3);
+  font-family: var(--font-display);
+  font-weight: 500;
+}
+
+/* Tarjetas: elevada, rellena y con contorno. */
+.m3-card {
+  background-color: var(--card);
+  border-radius: var(--m3-shape-md);
+  box-shadow: var(--m3-elev-1);
+  border: 1px solid transparent;
+}
+
+.m3-card-filled { background-color: var(--m3-surface-high); box-shadow: var(--m3-elev-0); border-color: transparent; }
+.m3-card-outlined { background-color: var(--card); box-shadow: var(--m3-elev-0); border-color: var(--m3-outline-variant); }
+
+/* Fila navegable: 56dp, radio completo y capa de estado. */
+.m3-list-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  min-height: 3.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: var(--m3-shape-full);
+  background-color: transparent;
+  color: var(--foreground);
+  text-align: left;
+  transition: background-color var(--m3-duration-short) var(--m3-ease-standard);
+}
+
+.m3-list-item:hover { background-color: color-mix(in oklab, currentColor 8%, transparent); }
+.m3-list-item:active { background-color: color-mix(in oklab, currentColor 10%, transparent); }
+.m3-list-item[aria-current="true"],
+.m3-list-item[data-selected="true"] { background-color: var(--secondary); color: var(--secondary-foreground); }
+
+/* Chip M3: 32dp, forma small, sin elevación. */
+.m3-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 2rem;
+  padding-inline: 0.75rem;
+  border: 1px solid var(--m3-outline-variant);
+  border-radius: var(--m3-shape-sm);
+  background-color: transparent;
+  color: var(--foreground);
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.00625rem;
+  white-space: nowrap;
+  transition: background-color var(--m3-duration-short) var(--m3-ease-standard);
+}
+
+.m3-chip:hover { background-color: color-mix(in oklab, currentColor 8%, transparent); }
+.m3-chip-selected { background-color: var(--secondary); color: var(--secondary-foreground); border-color: transparent; }
+
+/* Campo de texto M3 (relleno por defecto, con contorno como variante). */
+.m3-text-field {
+  width: 100%;
+  min-height: 3.5rem;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-bottom: 1px solid var(--m3-outline);
+  border-radius: var(--m3-shape-xs) var(--m3-shape-xs) 0 0;
+  background-color: var(--m3-surface-high);
+  color: var(--foreground);
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.m3-text-field-outlined {
+  border: 1px solid var(--m3-outline);
+  border-radius: var(--m3-shape-xs);
+  background-color: transparent;
+}
+
+/* Barra de navegación inferior M3: 80dp, indicador de 64x32 tras el icono. */
+.m3-nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  min-height: 5rem;
+  padding-block: 0.75rem;
+  background-color: var(--m3-surface-low);
+  border-top: 1px solid var(--m3-outline-variant);
+}
+
+.m3-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 4rem;
+  min-height: 3.5rem;
+  border: none;
+  background-color: transparent;
+  color: var(--ink-3);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.03125rem;
+}
+
+.m3-nav-item[aria-current="page"],
+.m3-nav-item[data-active="true"] { color: var(--primary); }
+
+/* Indicador activo: la píldora de M3 tras el icono. */
+.m3-nav-item > :first-child {
+  display: grid;
+  place-items: center;
+  width: 4rem;
+  height: 2rem;
+  border-radius: var(--m3-shape-full);
+  transition: background-color var(--m3-duration-medium) var(--m3-ease-standard);
+}
+
+.m3-nav-item[aria-current="page"] > :first-child,
+.m3-nav-item[data-active="true"] > :first-child { background-color: var(--secondary); }
+
+/* Barra superior M3: 64dp, superficie del contenedor, sin sombra. */
+.m3-top-app-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-height: 4rem;
+  padding-inline: 0.5rem;
+  background-color: var(--m3-surface);
+  border-bottom: 1px solid var(--m3-outline-variant);
+}
+
+/* Snackbar M3: superficie inversa, radio xs, elevación 3. */
+.m3-snackbar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 3rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--m3-shape-xs);
+  background-color: var(--ink);
+  color: var(--m3-surface-lowest);
+  box-shadow: var(--m3-elev-3);
+  font-size: 0.875rem;
+}
+
+/* Separador M3: 1dp de outline-variant. */
+.m3-divider {
+  height: 1px;
+  width: 100%;
+  border: none;
+  background-color: var(--m3-outline-variant);
+}
+
+/* Insignia M3 (badge): etiqueta pequeña sobre el contenedor de error. */
+.m3-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1rem;
+  height: 1rem;
+  padding-inline: 0.25rem;
+  border-radius: var(--m3-shape-full);
+  background-color: var(--destructive);
+  color: var(--destructive-foreground);
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.03125rem;
+}
+
+/* Grupo segmentado M3 (secondary tabs): un carril, una píldora activa. */
+.m3-segmented {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border: 1px solid var(--m3-outline-variant);
+  border-radius: var(--m3-shape-full);
+  background-color: transparent;
+}
+
+.m3-segment {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  min-height: 2rem;
+  padding-inline: 0.875rem;
+  border: none;
+  border-radius: var(--m3-shape-full);
+  background-color: transparent;
+  color: var(--ink-2);
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.m3-segment[aria-selected="true"],
+.m3-segment[data-active="true"] { background-color: var(--secondary); color: var(--secondary-foreground); }
+
+/* ═══════════ 16. COHERENCIAS CORREGIDAS ═══════════ */
+/* Brillos («halo» de selección): M3 nunca marca un estado con luz; la
+   selección se expresa con color y forma, así que el halo desaparece. */
+[class*="shadow-[0_0_"] { box-shadow: none !important; }
+
+/* Sombras de color (azuladas): en M3 la profundidad es un nivel de elevación
+   neutro, no un tinte de marca. */
+[class*="rgba(43,112,190"] { box-shadow: var(--m3-elev-1) !important; }
+[class*="oklch(0.47_0.14_263"] { box-shadow: var(--m3-elev-1) !important; }
+
+/* Reflejo interior ("brillo de cristal") en una sombra: no existe en M3. */
+[class*="shadow-[inset_"] { box-shadow: none !important; }
+
+/* Tintes de marca diluidos (bg-primary/10…/25): en M3 ese papel lo cumple el
+   contenedor primario, cuyo par de colores (contenedor / sobre-contenedor)
+   garantiza el contraste. Se sustituye el azul translúcido y, cuando el texto
+   iba en `primary-glow` (claro sobre claro), pasa al color sobre contenedor. */
+/* Se busca la clase completa (empieza el atributo o va tras un espacio) para
+   no tocar `hover:bg-primary/10` ni `disabled:bg-primary/20`. */
+[class^="bg-primary/1"], [class*=" bg-primary/1"],
+[class^="bg-primary/2"], [class*=" bg-primary/2"] { background-color: var(--accent); }
+
+[class^="bg-primary/1"][class*="text-primary-glow"],
+[class*=" bg-primary/1"][class*="text-primary-glow"],
+[class^="bg-primary/2"][class*="text-primary-glow"],
+[class*=" bg-primary/2"][class*="text-primary-glow"] { color: var(--accent-foreground); }
+
+/* `text-accent` pinta con el CONTENEDOR primario (tono 90 en claro, tono 30 en
+   oscuro): como color de texto no se lee en ninguno de los dos esquemas. El
+   contenido de ese contenedor es el rol «sobre contenedor» de M3.
+   Va ANTES del remapeo de `primary-glow` a propósito: en el contenedor manda el
+   par contenedor/sobre-contenedor, y fuera de él manda el rol primario. */
+[class~="text-accent"] { color: var(--accent-foreground); }
+
+/* `primary-glow` era un azul claro pensado para fondos oscuros; sobre las
+   superficies claras de M3 no pasa de 2.5:1. En M3 el contenido de marca es el
+   rol `primary`, así que en esquema claro se remapea a él. En oscuro el token
+   ya es un azul claro y se mantiene. */
+html:not(.dark) [class~="text-primary-glow"],
+html:not(.dark) [class~="hover:text-primary-glow"]:hover { color: var(--primary); }
+
+/* El texto sobre el contenedor primario es SIEMPRE el rol «sobre contenedor»:
+   con el azul de marca (0.505) sobre el contenedor (0.9) el rótulo se quedaba
+   en 4.4:1 — al filo del mínimo. El par contenedor/sobre-contenedor de M3 está
+   calculado para leerse, así que se aplica a todo el contenido de esos tintes.
+   (Especificidad 0-2-1: misma que el remapeo de `primary-glow` y va después,
+   así que dentro del contenedor gana el par de M3.) */
+html:not(.dark) :is([class^="bg-primary/1"], [class*=" bg-primary/1"],
+  [class^="bg-primary/2"], [class*=" bg-primary/2"]) { color: var(--accent-foreground); }
+
+/* El vidrio no existe en M3: las superficies flotantes son opacas sobre un
+   velo. Se anula la utilidad de desenfoque para que ninguna pantalla conserve
+   el fondo borroso (diálogos, láminas, cabeceras de editor). */
+[class*="backdrop-blur"] {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* ── Contraste de los roles de estado ──
+   Los tonos -500/-600 de Tailwind (verde/rojo/ámbar) están pensados para
+   fondos oscuros: sobre las superficies claras de M3 daban 2.3:1–3.6:1. En M3
+   el color de estado es un rol con su tono de texto, así que el texto usa los
+   tonos de tinta de cada rol. En oscuro no se toca: allí los tonos claros ya
+   cumplen. */
+html:not(.dark) :is([class~="text-emerald-400"], [class~="text-emerald-500"],
+  [class~="text-emerald-600"], [class~="text-emerald-700"]) { color: var(--success-ink); }
+
+html:not(.dark) :is([class~="text-rose-400"], [class~="text-rose-500"],
+  [class~="text-rose-600"], [class~="text-rose-700"]) { color: var(--error-ink); }
+
+html:not(.dark) :is([class~="text-amber-400"], [class~="text-amber-500"],
+  [class~="text-amber-600"], [class~="text-amber-700"]) { color: var(--warn-ink); }
+
+/* Bordes «blancos» sobre una superficie clara: se sustituyen por el color de
+   contorno de M3, que sí se ve en cualquier tema. */
+[class*="border-white/90"],
+[class*="border-white/70"] { border-color: var(--m3-outline-variant) !important; }
+
+/* Los velos oscuros (scrims) se dejan intactos: cubren fotos y contenido claro,
+   donde la opacidad es una decisión de legibilidad y no una forma de M3. */

@@ -10,33 +10,205 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as EditorRouteImport } from './routes/editor'
+import { Route as FeedRouteImport } from './routes/feed'
+import { Route as HistoryRouteImport } from './routes/history'
+import { Route as OrbesRouteImport } from './routes/orbes'
+import { Route as PaintRouteImport } from './routes/paint'
+import { Route as PlusRouteImport } from './routes/plus'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as SearchRouteImport } from './routes/search'
+import { Route as ProfileUserIdRouteImport } from './routes/profile.$userId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EditorRoute = EditorRouteImport.update({
+  id: '/editor',
+  path: '/editor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeedRoute = FeedRouteImport.update({
+  id: '/feed',
+  path: '/feed',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HistoryRoute = HistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrbesRoute = OrbesRouteImport.update({
+  id: '/orbes',
+  path: '/orbes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaintRoute = PaintRouteImport.update({
+  id: '/paint',
+  path: '/paint',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlusRoute = PlusRouteImport.update({
+  id: '/plus',
+  path: '/plus',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileUserIdRoute = ProfileUserIdRouteImport.update({
+  id: '/$userId',
+  path: '/$userId',
+  getParentRoute: () => ProfileRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
+  '/editor': typeof EditorRoute
+  '/feed': typeof FeedRoute
+  '/history': typeof HistoryRoute
+  '/orbes': typeof OrbesRoute
+  '/paint': typeof PaintRoute
+  '/plus': typeof PlusRoute
+  '/profile': typeof ProfileRouteWithChildren
+  '/reset-password': typeof ResetPasswordRoute
+  '/search': typeof SearchRoute
+  '/profile/$userId': typeof ProfileUserIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
+  '/editor': typeof EditorRoute
+  '/feed': typeof FeedRoute
+  '/history': typeof HistoryRoute
+  '/orbes': typeof OrbesRoute
+  '/paint': typeof PaintRoute
+  '/plus': typeof PlusRoute
+  '/profile': typeof ProfileRouteWithChildren
+  '/reset-password': typeof ResetPasswordRoute
+  '/search': typeof SearchRoute
+  '/profile/$userId': typeof ProfileUserIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
+  '/editor': typeof EditorRoute
+  '/feed': typeof FeedRoute
+  '/history': typeof HistoryRoute
+  '/orbes': typeof OrbesRoute
+  '/paint': typeof PaintRoute
+  '/plus': typeof PlusRoute
+  '/profile': typeof ProfileRouteWithChildren
+  '/reset-password': typeof ResetPasswordRoute
+  '/search': typeof SearchRoute
+  '/profile/$userId': typeof ProfileUserIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/about'
+    | '/auth'
+    | '/editor'
+    | '/feed'
+    | '/history'
+    | '/orbes'
+    | '/paint'
+    | '/plus'
+    | '/profile'
+    | '/reset-password'
+    | '/search'
+    | '/profile/$userId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/admin'
+    | '/about'
+    | '/auth'
+    | '/editor'
+    | '/feed'
+    | '/history'
+    | '/orbes'
+    | '/paint'
+    | '/plus'
+    | '/profile'
+    | '/reset-password'
+    | '/search'
+    | '/profile/$userId'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/about'
+    | '/auth'
+    | '/editor'
+    | '/feed'
+    | '/history'
+    | '/orbes'
+    | '/paint'
+    | '/plus'
+    | '/profile'
+    | '/reset-password'
+    | '/search'
+    | '/profile/$userId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
+  AboutRoute: typeof AboutRoute
+  AuthRoute: typeof AuthRoute
+  EditorRoute: typeof EditorRoute
+  FeedRoute: typeof FeedRoute
+  HistoryRoute: typeof HistoryRoute
+  OrbesRoute: typeof OrbesRoute
+  PaintRoute: typeof PaintRoute
+  PlusRoute: typeof PlusRoute
+  ProfileRoute: typeof ProfileRouteWithChildren
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  SearchRoute: typeof SearchRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,22 +220,126 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/editor': {
+      id: '/editor'
+      path: '/editor'
+      fullPath: '/editor'
+      preLoaderRoute: typeof EditorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/feed': {
+      id: '/feed'
+      path: '/feed'
+      fullPath: '/feed'
+      preLoaderRoute: typeof FeedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/history': {
+      id: '/history'
+      path: '/history'
+      fullPath: '/history'
+      preLoaderRoute: typeof HistoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/orbes': {
+      id: '/orbes'
+      path: '/orbes'
+      fullPath: '/orbes'
+      preLoaderRoute: typeof OrbesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/paint': {
+      id: '/paint'
+      path: '/paint'
+      fullPath: '/paint'
+      preLoaderRoute: typeof PaintRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/plus': {
+      id: '/plus'
+      path: '/plus'
+      fullPath: '/plus'
+      preLoaderRoute: typeof PlusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile/$userId': {
+      id: '/profile/$userId'
+      path: '/$userId'
+      fullPath: '/profile/$userId'
+      preLoaderRoute: typeof ProfileUserIdRouteImport
+      parentRoute: typeof ProfileRoute
+    }
   }
 }
 
+interface ProfileRouteChildren {
+  ProfileUserIdRoute: typeof ProfileUserIdRoute
+}
+
+const ProfileRouteChildren: ProfileRouteChildren = {
+  ProfileUserIdRoute: ProfileUserIdRoute,
+}
+
+const ProfileRouteWithChildren =
+  ProfileRoute._addFileChildren(ProfileRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
+  AboutRoute: AboutRoute,
+  AuthRoute: AuthRoute,
+  EditorRoute: EditorRoute,
+  FeedRoute: FeedRoute,
+  HistoryRoute: HistoryRoute,
+  OrbesRoute: OrbesRoute,
+  PaintRoute: PaintRoute,
+  PlusRoute: PlusRoute,
+  ProfileRoute: ProfileRouteWithChildren,
+  ResetPasswordRoute: ResetPasswordRoute,
+  SearchRoute: SearchRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

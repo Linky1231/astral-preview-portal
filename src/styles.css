@@ -4,28 +4,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/*
- * Design system definition.
- *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
- *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
- */
-
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
+  --radius-xl: var(--radius);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -34,6 +17,7 @@
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-primary-glow: var(--primary-glow);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
@@ -46,90 +30,159 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+  --color-grid: var(--grid);
+
+  /* ── Asternal design system tokens (DESIGN.md) ── */
+  --color-canvas: var(--canvas);
+  --color-surface: var(--card);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-azure: var(--azure);
+  --color-blue-600: var(--blue-600);
+  --color-success: var(--success);
+  --color-warn: var(--warn);
+  /* Tinta de estado: tono con el que el rol se lee sobre superficie (claro). */
+  --color-success-ink: var(--success-ink);
+  --color-error-ink: var(--error-ink);
+  --color-warn-ink: var(--warn-ink);
+
+  --font-display: "Space Grotesk", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
+  --font-sans: "SF Pro Text", -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
+  --radius: 0.75rem;
+
+  /* ── Lienzo "espacio profundo": claro, frío, casi blanco ── */
+  --canvas: oklch(0.972 0.006 252);
+  --background: var(--canvas);
+  --foreground: oklch(0.165 0.028 258);
+  --ink: oklch(0.165 0.028 258);
+  --ink-2: oklch(0.43 0.028 256);
+  --ink-3: oklch(0.55 0.022 256);
+
+  /* ── Superficies ── */
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
+  --card-foreground: var(--ink);
+  --surface-2: oklch(0.95 0.008 252);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
+  --popover-foreground: var(--ink);
+
+  /* ── Azul Asternal «Azure Drift»: cobalto → azur → cielo (suave, luminoso,
+     profesional). Es la única familia azul de la app: botones, degradados,
+     sombras de color y monogramas usan estos mismos tonos. ── */
+  --primary: oklch(0.55 0.15 262);
+  --primary-foreground: oklch(0.99 0 0);
+  --primary-glow: oklch(0.63 0.12 252);
+  --blue-600: oklch(0.46 0.15 268);
+  --azure: oklch(0.72 0.08 236);
+  --violet-accent: oklch(0.63 0.15 300);
+  --cyan-accent: oklch(0.75 0.07 210);
+  --accent: var(--azure);
+  --accent-foreground: oklch(0.25 0.03 260);
+
+  --secondary: var(--surface-2);
+  --secondary-foreground: oklch(0.27 0.03 256);
+
+  --muted: var(--surface-2);
+  --muted-foreground: oklch(0.52 0.024 256);
+
+  /* ── Líneas y estados ── */
+  --line: oklch(0.9 0.012 252 / 0.6);
+  --line-strong: oklch(0.83 0.016 252 / 0.75);
+  --border: var(--line);
+  --input: oklch(0.92 0.008 252 / 0.7);
+  --ring: oklch(0.55 0.13 262 / 0.35);
+  --grid: oklch(0.87 0.01 252 / 0.4);
+  --destructive: oklch(0.577 0.215 25);
+  --destructive-foreground: oklch(0.99 0 0);
+  --success: oklch(0.62 0.17 155);
+  --warn: oklch(0.75 0.16 80);
+
+  /* ── Elevación (jerarquía: borde → sombra) ── */
+  --shadow-xs: 0 1px 2px 0 oklch(0.2 0.02 260 / 0.05);
+  --shadow-sm: 0 1px 3px 0 oklch(0 0 0 / 0.06), 0 1px 2px -1px oklch(0 0 0 / 0.06);
+  --shadow-md: 0 4px 12px -2px oklch(0 0 0 / 0.08), 0 2px 4px -2px oklch(0 0 0 / 0.04);
+  --shadow-lg: 0 12px 28px -8px oklch(0 0 0 / 0.10), 0 4px 12px -4px oklch(0 0 0 / 0.06);
+  --shadow-xl: 0 20px 44px -12px oklch(0 0 0 / 0.14);
+
+/* Sombras de color (elementos flotando sobre el lienzo blanco) */
+  --shadow-float: 0 18px 44px -18px oklch(0.5 0.13 266 / 0.3);
+  --shadow-glow: 0 10px 30px -12px oklch(0.55 0.14 262 / 0.3), 0 4px 18px -8px oklch(0.68 0.08 230 / 0.26);
+
+  /* Los tokens de material (--glass-*) y de elevación los define material3.css:
+     la interfaz es siempre Material 3, sin vidrio ni variantes. */
+
+  /* ── Degradados oficiales (DESIGN.md §2.2) ── */
+  /* ÚNICO degradado de marca: 135° cobalto → azur → cielo (Azure Drift). */
+  --gradient-asternal: linear-gradient(135deg, oklch(0.52 0.15 266) 0%, oklch(0.61 0.12 254) 48%, oklch(0.74 0.08 234) 100%);
+  /* Variantes del MISMO degradado: diluido (acentos de fondo) y suave-profundo (banner destacado). */
+  --gradient-asternal-soft: linear-gradient(135deg, oklch(0.52 0.15 266 / 0.1), oklch(0.61 0.12 254 / 0.08) 48%, oklch(0.74 0.08 234 / 0.06));
+  --gradient-asternal-deep: linear-gradient(135deg, oklch(0.42 0.12 266) 0%, oklch(0.48 0.11 256) 48%, oklch(0.57 0.08 236) 100%);
+
+  /* Asternal Plus — paleta Material 3 del producto (roles y tonos sólidos) en
+     material3.css: --plus, --plus-container, --plus-on-primary, --plus-outline
+     y --plus-frame-*. Aquí no se define ningún degradado de Plus. */
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-smooth: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+
 .dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
+  /* Tema oscuro real de Asternal (antes este bloque replicaba :root, así que
+     "oscuro" era indistinguible del claro). Misma paleta en tonos oscuros:
+     lienzo azul profundo, superficies elevadas y el azul de marca aclarado
+     para conservar el contraste AA sobre fondo oscuro. */
+  --radius: 0.75rem;
+  --canvas: oklch(0.155 0.022 262);
+  --background: var(--canvas);
+  --foreground: oklch(0.95 0.01 262);
+  --ink: oklch(0.95 0.01 262);
+  --ink-2: oklch(0.78 0.02 260);
+  --ink-3: oklch(0.64 0.02 260);
+  --card: oklch(0.215 0.024 262);
+  --card-foreground: var(--ink);
+  --surface-2: oklch(0.27 0.026 262);
+  --popover: oklch(0.235 0.024 262);
+  --popover-foreground: var(--ink);
+  --primary: oklch(0.72 0.13 260);
+  --primary-foreground: oklch(0.16 0.04 262);
+  --primary-glow: oklch(0.78 0.1 255);
+  --blue-600: oklch(0.62 0.14 266);
+  --azure: oklch(0.78 0.08 236);
+  --violet-accent: oklch(0.72 0.14 300);
+  --cyan-accent: oklch(0.82 0.07 210);
+  --accent: var(--azure);
+  --accent-foreground: oklch(0.17 0.03 260);
+  --secondary: var(--surface-2);
+  --secondary-foreground: oklch(0.9 0.01 262);
+  --muted: var(--surface-2);
+  --muted-foreground: oklch(0.74 0.02 260);
+  --line: oklch(0.34 0.025 262 / 0.85);
+  --line-strong: oklch(0.45 0.03 262 / 0.9);
+  --border: var(--line);
+  --input: oklch(0.42 0.03 262 / 0.85);
+  --ring: oklch(0.72 0.13 260 / 0.55);
+  --grid: oklch(0.3 0.025 262 / 0.55);
+  --destructive: oklch(0.68 0.19 25);
+  --destructive-foreground: oklch(0.99 0 0);
+  --success: oklch(0.75 0.15 155);
+  --warn: oklch(0.82 0.14 80);
+  --gradient-asternal: linear-gradient(135deg, oklch(0.62 0.14 266) 0%, oklch(0.7 0.11 254) 48%, oklch(0.82 0.08 234) 100%);
+  --gradient-asternal-soft: linear-gradient(135deg, oklch(0.62 0.14 266 / 0.16), oklch(0.7 0.11 254 / 0.12) 48%, oklch(0.82 0.08 234 / 0.08));
+  --gradient-asternal-deep: linear-gradient(135deg, oklch(0.3 0.1 266) 0%, oklch(0.36 0.09 256) 48%, oklch(0.45 0.07 236) 100%);
+  --shadow-xs: 0 1px 2px 0 oklch(0 0 0 / 0.4);
+  --shadow-sm: 0 1px 3px 0 oklch(0 0 0 / 0.5), 0 1px 2px -1px oklch(0 0 0 / 0.5);
+  --shadow-md: 0 4px 12px -2px oklch(0 0 0 / 0.55), 0 2px 4px -2px oklch(0 0 0 / 0.4);
+  --shadow-lg: 0 12px 28px -8px oklch(0 0 0 / 0.6), 0 4px 12px -4px oklch(0 0 0 / 0.45);
+  --shadow-float: 0 18px 44px -18px oklch(0.4 0.14 266 / 0.55);
+  --shadow-glow: 0 10px 30px -12px oklch(0.55 0.14 262 / 0.45), 0 4px 18px -8px oklch(0.68 0.08 230 / 0.3);
 }
 
 @layer base {
@@ -137,8 +190,820 @@
     border-color: var(--color-border);
   }
 
+  html, body, #root {
+    height: 100%;
+  }
+
+  html {
+    /* Corta cualquier desborde horizontal (nunca scroll lateral por 100vw). */
+    overflow-x: clip;
+  }
+
   body {
-    background-color: var(--color-background);
+    background:
+      radial-gradient(circle at 4% -12%, oklch(0.72 0.08 236 / 0.12), transparent 31rem),
+      radial-gradient(circle at 96% 4%, oklch(0.55 0.15 262 / 0.08), transparent 28rem),
+      var(--canvas);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior: none;
+    touch-action: manipulation;
+    letter-spacing: 0;
+    overflow-x: clip;
+  }
+
+  /* Imágenes, vídeos e iframes nunca desbordan su contenedor. */
+  img, video, iframe, canvas, svg {
+    max-width: 100%;
+  }
+
+  /* iOS: evita el zoom automático al enfocar inputs pequeños. */
+  @media (max-width: 767px) {
+    input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]),
+    textarea, select {
+      font-size: 16px;
+    }
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.03em;
+    font-weight: 700;
+  }
+
+  /* Focus visible global (accesibilidad, DESIGN.md §9).
+     No se define `border-radius` aquí: forzaba 2px sobre el elemento enfocado
+     y convertía en cuadrado cualquier botón redondeado (selector inferior).
+     El outline sigue el radio propio de cada botón. */
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-primary) 16%, transparent);
+  }
+
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]),
+  textarea,
+  select {
+    background-color: var(--glass-fill-strong);
+    border-color: var(--glass-edge-muted);
+    box-shadow: var(--glass-highlight);
+  }
+}
+
+/* ═══════════ ASTERNAL SURFACE SYSTEM (DESIGN.md §7.2) ═══════════ */
+
+/* Superficie estándar: borde hairline + radio, sin sombra por defecto. */
+@utility surface {
+  background: var(--glass-fill);
+  border: 1px solid var(--glass-edge-muted);
+  border-radius: var(--radius);
+  box-shadow: var(--glass-highlight);
+  backdrop-filter: var(--glass-blur);
+}
+
+/* Superficie inset (fondos de inputs, filas seleccionadas, menús). */
+@utility surface-2 {
+  background: var(--glass-fill-soft);
+  border-radius: var(--radius);
+  box-shadow: var(--glass-highlight);
+  backdrop-filter: blur(12px) saturate(1.05);
+}
+
+/* Hairline: separación mínima. */
+@utility hairline {
+  border: 1px solid var(--color-border);
+}
+
+/* El degradado oficial de Asternal para texto (una firma, no un fondo). */
+@utility text-gradient {
+  background: var(--gradient-asternal);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* La CTA principal de la pantalla: ÚNICO uso dominante del degradado. */
+@utility btn-grad {
+  background: var(--gradient-asternal);
+  color: var(--color-primary-foreground);
+  border: 1px solid transparent;
+  box-shadow: var(--glass-highlight), 0 10px 24px -13px oklch(0.47 0.14 263 / 0.65);
+  transition: transform 120ms var(--ease-out-expo);
+}
+.btn-grad:hover {
+  border-color: transparent;
+  box-shadow: var(--glass-highlight), var(--shadow-glow);
+}
+.btn-grad:active {
+  transform: scale(0.97);
+}
+
+/* Micro-label consistente de sección (una vez por bloque). */
+/* Micro-label de sección: mono + mayúsculas (contraste con los títulos display). */
+@utility section-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Chip estándar (tags, categorías, metadatos) — sin sombra ni degradado. */
+@utility chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 999px;
+  font-size: 11px;
+  padding: 4px 10px;
+  background: var(--color-muted);
+  color: var(--color-ink-2);
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+/* Feedback de toque (escala ligera). */
+@utility press {
+  transition: transform 140ms var(--ease-out-expo);
+}
+.press:active {
+  transform: scale(0.97);
+}
+
+/* ============ Compat: utilidades previas (se mantienen) ============ */
+@utility glow-text {
+  text-shadow: none;
+}
+
+@utility glow-border {
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border);
+}
+
+@utility panel {
+  background: var(--glass-fill);
+  border: 1px solid var(--glass-edge-muted);
+  box-shadow: var(--glass-highlight), var(--glass-shadow);
+  border-radius: var(--radius);
+  backdrop-filter: var(--glass-blur);
+}
+
+@utility neu-raised {
+  background: var(--glass-fill);
+  box-shadow: var(--glass-highlight), var(--glass-shadow);
+  border-radius: var(--radius);
+  backdrop-filter: var(--glass-blur);
+}
+
+@utility neu-inset {
+  background: var(--glass-fill-soft);
+  border-radius: var(--radius);
+  box-shadow: var(--glass-highlight);
+  backdrop-filter: blur(12px) saturate(1.05);
+}
+
+@utility neu-btn {
+  background: var(--glass-fill-strong);
+  border: 1px solid var(--glass-edge-muted);
+  box-shadow: var(--glass-highlight), var(--shadow-sm);
+  border-radius: 999px;
+  backdrop-filter: blur(14px) saturate(1.08);
+  transition: transform 120ms var(--ease-out-smooth);
+}
+.neu-btn:hover { background: var(--m3-surface-high); box-shadow: var(--m3-elev-2); }
+.neu-btn:active {
+  box-shadow: none;
+  transform: scale(0.98);
+}
+
+@utility hover-lift {
+  transition: transform 160ms var(--ease-out-expo);
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+@utility press-scale {
+  transition: transform 140ms var(--ease-out-expo);
+}
+.press-scale:active {
+  transform: scale(0.97);
+}
+
+@utility cyber-grid {
+  background-image:
+    linear-gradient(var(--color-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-grid) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* ============ Refinamiento visual blanco (grano + tiles) ============ */
+
+/* UN solo tipo de degradado en toda la app: el oficial de Asternal (135°
+   cobalto → azur) en sus tres intensidades + la firma en hairline. Cualquier
+   superficie de marca usa estas clases; no se mezclan ángulos ni familias. */
+.grad-brand {
+  background-image: var(--gradient-asternal);
+}
+.grad-brand-soft {
+  background-image: var(--gradient-asternal-soft);
+}
+.grad-brand-deep {
+  background-image: var(--gradient-asternal-deep);
+}
+
+/* Firma en hairline (borde superior de publicaciones, franjas de identidad):
+   el MISMO degradado oficial que se desvanece hacia la derecha. */
+.grad-brand-fade {
+  background-image: linear-gradient(
+    to right,
+    oklch(0.52 0.15 266) 0%,
+    oklch(0.61 0.12 254) 40%,
+    oklch(0.74 0.08 234) 62%,
+    transparent 100%
+  );
+}
+
+/* ============ Banner destacado: azul de marca + animación «mejor juego» ============ */
+
+/* Overlay azul (nunca negro): mantiene el banner en la identidad cobalto incluso
+   con portadas grises/apagadas, y da contraste al título sin desaturar a gris. */
+.banner-overlay-deep {
+  background: linear-gradient(
+    to top,
+    oklch(0.24 0.06 264 / 0.92) 0%,
+    oklch(0.3 0.07 258 / 0.4) 40%,
+    oklch(0.34 0.06 248 / 0.1) 75%,
+    transparent 100%
+  );
+}
+
+/* Banner: sombra neutra y sutil — sin glow pulsante (AI slop: colored pulsing glow). */
+.banner-glow {
+  box-shadow: 0 8px 32px -12px oklch(0.3 0.03 262 / 0.18);
+}
+.banner-glow-halo {
+  pointer-events: none;
+  box-shadow: none;
+  opacity: 0;
+}
+
+/* Barrido de luz que cruza el banner cada pocos segundos. */
+@keyframes banner-shine {
+  0% { transform: translateX(-160%) skewX(-16deg); }
+  55%, 100% { transform: translateX(320%) skewX(-16deg); }
+}
+.banner-shine {
+  position: absolute;
+  top: -10%;
+  bottom: -10%;
+  left: 0;
+  width: 34%;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.16) 50%, transparent 100%);
+  animation: banner-shine 14s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Insignia MEJOR JUEGO: sombra estática + pulso de opacidad (composited). */
+.badge-glow {
+  box-shadow: 0 6px 16px -6px oklch(0.35 0.09 262 / 0.4);
+  animation: glow-pulse 7s ease-in-out infinite;
+  will-change: opacity;
+}
+
+/* Textura de grano sutil sobre degradados (nunca se ve plano ni "de algoritmo"). */
+.noise-overlay {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='140' height='140' filter='url(%23n)'/></svg>");
+  background-size: 140px 140px;
+}
+
+/* Tile de juego sin portada: superficie M3 (surface-container-high) con la
+   retícula técnica. Sin degradado de fondo, ni borde de color, ni sombra
+   teñida: la profundidad la da el nivel de superficie, no el brillo. */
+.tile-blueprint {
+  background-color: var(--m3-surface-high);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px, 24px 24px;
+  border: 1px solid var(--m3-outline-variant);
+  box-shadow: none;
+}
+.tile-blueprint:hover {
+  background-color: var(--m3-surface-highest);
+  border-color: var(--m3-outline);
+}
+
+@utility glass {
+  background: var(--glass-fill);
+  border: 1px solid var(--glass-edge-muted);
+  box-shadow: var(--glass-highlight), var(--glass-shadow);
+  backdrop-filter: var(--glass-blur);
+}
+
+@utility glass-btn {
+  background: var(--glass-fill-strong);
+  border: 1px solid var(--glass-edge-muted);
+  box-shadow: var(--glass-highlight), var(--shadow-sm);
+  color: var(--color-foreground);
+  backdrop-filter: blur(14px) saturate(1.08);
+  transition: transform 120ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+@utility glass-btn-hover {
+  background: var(--m3-surface-highest);
+  box-shadow: var(--m3-elev-2);
+}
+
+@utility glass-surface {
+  background: var(--glass-fill);
+  border: 1px solid var(--glass-edge-muted);
+  box-shadow: var(--glass-highlight), var(--glass-shadow);
+  backdrop-filter: var(--glass-blur);
+}
+
+@utility glass-control {
+  background: var(--glass-fill-strong);
+  border: 1px solid var(--glass-edge-muted);
+  box-shadow: var(--glass-highlight), 0 2px 6px -5px oklch(0.28 0.05 260 / 0.34);
+  backdrop-filter: blur(14px) saturate(1.08);
+  transition: transform 120ms var(--ease-out-expo);
+}
+.glass-control:hover { background: var(--m3-surface-high); border-color: var(--line-strong); }
+.glass-control:focus-visible { border-color: var(--primary); box-shadow: 0 0 0 3px var(--ring); }
+
+@utility glass-menu {
+  background: var(--popover);
+  border: 1px solid var(--glass-edge-muted);
+  box-shadow: var(--glass-highlight), 0 20px 46px -22px oklch(0.28 0.05 260 / 0.42);
+  backdrop-filter: blur(22px) saturate(1.12);
+}
+
+@utility glass-header {
+  background: var(--m3-surface);
+  border-color: var(--line);
+  box-shadow: var(--m3-elev-1);
+  backdrop-filter: none;
+}
+
+@utility glass-primary {
+  border: 1px solid oklch(1 0 0 / 0.34);
+  box-shadow: var(--glass-highlight), 0 10px 22px -14px oklch(0.47 0.14 263 / 0.7);
+}
+.glass-primary:hover { box-shadow: var(--glass-highlight), var(--shadow-glow); }
+
+@utility glass-destructive {
+  border: 1px solid oklch(1 0 0 / 0.32);
+  box-shadow: var(--glass-highlight), 0 8px 18px -14px oklch(0.577 0.215 25 / 0.64);
+}
+
+@utility glass-ghost {
+  border: 1px solid transparent;
+  transition: transform 120ms var(--ease-out-expo);
+}
+.glass-ghost:hover { background: var(--glass-fill-soft); border-color: var(--glass-edge-muted); }
+
+.app-header { box-shadow: var(--m3-elev-1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .glass-control, .glass-btn, .neu-btn, .btn-grad, .glass-ghost, .banner-shine, .badge-glow { transition-duration: 0ms; animation: none !important; }
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+/* ============ Header stability — kills the "tambaleo" on scroll ============ */
+.app-header {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  /* Solo contención de LAYOUT: `paint` recorta todo lo que sobresalga del
+     marco de la cabecera, y ahí dentro viven botones con elevación M3 cuyas
+     sombras quedaban cortadas. El aislamiento de layout se mantiene. */
+  contain: layout;
+}
+
+/* ============ Plus: name effects ============ */
+@keyframes name-rainbow-anim {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+@keyframes name-pulse-anim {
+  0%, 100% { text-shadow: 0 0 6px oklch(0.72 0.15 245 / 0.55); }
+  50%      { text-shadow: 0 0 14px oklch(0.72 0.15 245 / 0.95), 0 0 22px oklch(0.72 0.15 245 / 0.55); }
+}
+
+.name-fx { display: inline-block; position: relative; }
+
+.name-fx-glow {
+  color: oklch(0.52 0.16 250);
+  text-shadow: 0 0 8px oklch(0.72 0.15 245 / 0.8);
+}
+.dark .name-fx-glow {
+  color: oklch(0.76 0.14 245);
+}
+.name-fx-rainbow {
+  background: linear-gradient(90deg,
+    #ff5e7a, #ffb84d, #ffe45c, #7dff9f, #4dd6ff, #a97dff, #ff5e7a);
+  background-size: 200% 100%;
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+  animation: name-rainbow-anim 6s linear infinite;
+}
+.name-fx-gradient {
+  background: linear-gradient(90deg, oklch(0.55 0.16 262), oklch(0.72 0.15 320), oklch(0.64 0.12 220));
+  background-size: 200% 100%;
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+  animation: name-rainbow-anim 5s linear infinite;
+}
+.name-fx-pulse {
+  color: oklch(0.52 0.16 262);
+  animation: name-pulse-anim 2.2s ease-in-out infinite;
+}
+.name-fx-shadow {
+  color: oklch(0.22 0.03 260);
+  text-shadow: 2px 2px 0 oklch(0.68 0.14 220 / 0.6);
+}
+.name-fx-neon {
+  color: oklch(0.47 0.14 200);
+  text-shadow:
+    0 0 4px oklch(0.72 0.16 195 / 0.85),
+    0 0 10px oklch(0.68 0.14 220 / 0.6);
+}
+
+/* Sombra y Neón no pueden usar un solo color para los dos temas: sobre la
+   superficie oscura la sombra casi negra desaparecía y sobre la clara el neón
+   blanco se volvía invisible. Cada efecto define su variante por tema. */
+.dark .name-fx-shadow {
+  color: oklch(0.88 0.02 262);
+  text-shadow: 2px 2px 0 oklch(0.6 0.1 240 / 0.65);
+}
+.dark .name-fx-pulse {
+  color: oklch(0.82 0.12 255);
+}
+.dark .name-fx-neon {
+  color: oklch(0.98 0 0);
+  text-shadow:
+    0 0 4px oklch(0.72 0.16 195),
+    0 0 8px oklch(0.72 0.16 195),
+    0 0 14px oklch(0.68 0.14 220),
+    0 0 22px oklch(0.68 0.14 220 / 0.7);
+}
+
+/* ============ Plus: marcos de avatar ============
+   Sin degradados ni animaciones de borde: cada marco es un color SÓLIDO de la
+   paleta Material 3 de Plus (--plus-frame-* en material3.css), aplicado en
+   línea como anillo plano por PostCard y ProfilePanel. */
+
+
+
+/* ============ Post entrance effects ============ */
+@keyframes post-fx-sparkle-anim {
+  0%   { box-shadow: 0 0 0 0 oklch(0.75 0.14 220 / 0); }
+  30%  { box-shadow: 0 0 24px 6px oklch(0.75 0.14 220 / 0.55); }
+  100% { box-shadow: 0 0 0 0 oklch(0.75 0.14 220 / 0); }
+}
+@keyframes post-fx-wave-anim {
+  0%   { transform: translateY(20px); opacity: 0; }
+  60%  { transform: translateY(-4px); opacity: 1; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+@keyframes post-fx-glow-anim {
+  0%, 100% { box-shadow: 0 0 0 0 oklch(0.68 0.14 220 / 0); }
+  50%      { box-shadow: 0 0 36px 4px oklch(0.68 0.14 220 / 0.5); }
+}
+@keyframes post-fx-confetti-anim {
+  0%   { transform: scale(0.94) rotate(-1deg); opacity: 0; }
+  60%  { transform: scale(1.02) rotate(0.5deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+.post-fx-sparkle { animation: post-fx-sparkle-anim 2.2s ease-out 1; }
+.post-fx-wave    { animation: post-fx-wave-anim 700ms cubic-bezier(0.22, 1, 0.36, 1) 1; }
+.post-fx-glow    { animation: post-fx-glow-anim 2.4s ease-in-out 1; }
+.post-fx-confetti{ animation: post-fx-confetti-anim 650ms cubic-bezier(0.22, 1, 0.36, 1) 1; }
+.post-fx-fade-up { animation: fade-in-up 700ms cubic-bezier(0.22, 1, 0.36, 1) 1; }
+
+/* Transitions between editor sections
+   SIN blur: animar filter por frame repintaba todo el panel → lag perceptible
+   en móvil. Ahora solo opacity + translateY (un pase de composición, GPU). */
+@keyframes tab-enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+@keyframes panel-slide-right {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0);    }
+}
+@keyframes panel-slide-left {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0);     }
+}
+@keyframes pop-in {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1);    }
+}
+@utility view-fade {
+  animation: tab-enter 200ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: transform, opacity;
+}
+@utility view-slide-right {
+  animation: panel-slide-right 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@utility view-slide-left {
+  animation: panel-slide-left 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@utility pop-in {
+  animation: pop-in 200ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+
+
+/* ============ Modern animation utilities ============ */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+@keyframes gentle-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.55; }
+}
+@utility anim-fade-in-up {
+  animation: fade-in-up 320ms var(--ease-out-expo) both;
+}
+@utility anim-fade-in {
+  animation: fade-in 320ms var(--ease-out-smooth) both;
+}
+@utility anim-scale-in {
+  animation: scale-in 260ms var(--ease-out-expo) both;
+}
+@utility anim-float {
+  animation: float 3.6s ease-in-out infinite;
+}
+@utility anim-shimmer {
+  background: linear-gradient(
+    90deg,
+    oklch(0.95 0.005 250) 0%,
+    oklch(0.98 0.005 250) 50%,
+    oklch(0.95 0.005 250) 100%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+
+/* Entrada de tarjetas del feed: animación CSS pura (opacity + translateY, sin
+   scale) — un solo pase de composición, sin medición de layout por frame y sin
+   framer-motion por tarjeta. Corta (300ms) para que la sección cargue sin
+   sensación de retraso. */
+@keyframes card-enter {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@utility card-enter {
+  animation: card-enter 300ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* NOTA: se eliminó content-visibility de las tarjetas del feed. Con
+   contain-intrinsic-size: auto 420px, las tarjetas fuera de pantalla tenían un
+   alto de reserva falso; al abrir un menú (⋮) el navegador repintaba el
+   viewport, las renderizaba a su alto real y TODO el feed saltaba de posición
+   de golpe (layout shift + reflow → lag). Las tarjetas miden su alto real. */
+
+/* ============ Auth page: confetti ============ */
+@keyframes confetti-fall {
+  0% {
+    opacity: 1;
+    transform: translateY(0) translateX(0) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(400px) translateX(var(--drift, 40px)) rotate(720deg);
+  }
+}
+@keyframes confetti-flash {
+  0% { opacity: 0; transform: scale(0); }
+  30% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.5); }
+}
+@keyframes animate-coin-collect {
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  50% { opacity: 0.8; transform: translateY(-20px) scale(1.5); }
+  100% { opacity: 0; transform: translateY(-40px) scale(0.5); }
+}
+.animate-coin-collect {
+  animation: animate-coin-collect 0.6s ease-out both;
+}
+
+/* ============ Auth page: slide transitions ============ */
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(20px) scale(0.98); filter: blur(4px); }
+  to   { opacity: 1; transform: translateX(0) scale(1); filter: blur(0); }
+}
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-20px) scale(0.98); filter: blur(4px); }
+  to   { opacity: 1; transform: translateX(0) scale(1); filter: blur(0); }
+}
+@keyframes slide-in-up {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); filter: blur(3px); }
+  to   { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+.animate-form-slide {
+  animation-duration: 350ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: both;
+}
+
+/* ============ Auth page: subtle background drift ============ */
+@keyframes drift-slow {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(2%, 1.5%) scale(1.02); }
+  66%      { transform: translate(-1.5%, -1%) scale(0.98); }
+}
+
+.duration-400 { transition-duration: 400ms; }
+
+/* ============ Auth page: gentle rotation for shapes ============ */
+@keyframes rotate-gentle {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(2deg); }
+  75% { transform: rotate(-2deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* ============ Auth page animations ============ */
+@keyframes float-particle {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0.4; }
+  25%      { transform: translateY(-18px) scale(1.15); opacity: 0.7; }
+  50%      { transform: translateY(-8px) scale(0.95); opacity: 0.5; }
+  75%      { transform: translateY(-24px) scale(1.05); opacity: 0.8; }
+}
+@keyframes float-icon {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25%      { transform: translateY(-10px) rotate(4deg); }
+  50%      { transform: translateY(-4px) rotate(-2deg); }
+  75%      { transform: translateY(-14px) rotate(3deg); }
+}
+@keyframes shimmer-border {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes led-rotate {
+  0%   { --angle: 0deg; }
+  100% { --angle: 360deg; }
+}
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes shimmer-text {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+.animate-shimmer-border {
+  animation: shimmer-border 6s ease-in-out infinite;
+}
+.animate-shimmer-text {
+  background-size: 200% 100%;
+  animation: shimmer-text 4s linear infinite;
+}
+
+.ease-out-expo {
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Smooth cursor blink */
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+.animate-cursor-blink {
+  animation: cursor-blink 1s step-end infinite;
+}
+
+/* ============ Auth hero: twinkle stars ============ */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.1; transform: scale(0.75); }
+  50%      { opacity: 0.9; transform: scale(1.3); }
+}
+
+/* ============ Auth hero: gentle vertical bob ============ */
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+@keyframes bob-slow {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+
+/* ============ Auth hero: orbital rotation ============ */
+@keyframes orbit-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes orbit-slow-rev {
+  from { transform: rotate(360deg); }
+  to   { transform: rotate(0deg); }
+}
+
+/* ============ Responsive global: todas las pantallas ============ */
+
+/* Safe-areas para móviles con notch (iPhone, Android gestural). */
+@utility safe-top {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+@utility safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@utility safe-left {
+  padding-left: env(safe-area-inset-left, 0px);
+}
+@utility safe-right {
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
+/* Alturas de 100% del viewport dinámico (evita el salto con la barra del navegador). */
+@utility h-dvh {
+  height: 100dvh;
+}
+
+/* Punto de ruptura universal: pantallas muy pequeñas (<360px). */
+@media (max-width: 359px) {
+  .app-compact {
+    --app-gap: 2px;
+  }
+  .panel {
+    border-radius: 0.875rem;
+  }
+}
+
+/* El header sticky nunca debe desbordar: .header-name usa flex-1 + min-w-0 y
+   truncate en sus hijos, así el nombre se corta solo sin empujar los botones.
+   (Antes un max-width dejaba un hueco que separaba la píldora de orbes y el ☰
+   del borde derecho en móvil.) */
+@media (max-width: 639px) {
+  .app-header .header-name {
+    min-width: 0;
+  }
+}
+
+/* ═══════════ Texto de carga del buscador (HaloSearchInput) ═══════════ */
+/* Onda por carácter: retardo y duración llegan por estilo inline. */
+.halo-char {
+  display: inline-block;
+  animation: halo-char-pulse var(--ease-out-expo) infinite;
+}
+@keyframes halo-char-pulse {
+  0% { opacity: 0.2; }
+  45% { opacity: 1; }
+  100% { opacity: 0.2; }
+}
+
+/* ============ Rendimiento: reduce motion ============ */
+@media (prefers-reduced-motion: reduce) {
+  .halo-char,
+  .banner-shine,
+  .banner-glow,
+  .banner-glow-halo,
+  .badge-glow,
+  .animate-float-icon,
+  .animate-shimmer-text,
+  .animate-shimmer-border,
+  [style*="bob"],
+  [style*="twinkle"],
+  [style*="orbit-slow"],
+  [style*="orbit-slow-rev"],
+  [style*="drift-slow"] {
+    animation: none !important;
   }
 }
