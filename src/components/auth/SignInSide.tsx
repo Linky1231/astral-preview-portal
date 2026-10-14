@@ -230,39 +230,39 @@ export function SignInSide({ onSignedIn, returnTo = "/", notice }: SignInSidePro
   };
 
   return (
-    <div className="relative min-h-dvh w-full overflow-y-auto bg-background text-foreground">
-      {/* Fondo: auroras azules suaves + retícula fina, para que el cristal
-          tenga profundidad detrás. */}
+    <div className="auth-scene relative min-h-dvh w-full overflow-y-auto text-foreground">
+      {/* Fondo: degradado azul profundo con auroras que derivan despacio y
+          una retícula fina para dar profundidad al cristal. */}
       <div aria-hidden className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="absolute -left-32 -top-32 h-[28rem] w-[28rem] rounded-full bg-primary/25 blur-3xl" />
-        <div className="absolute -right-24 top-1/4 h-[24rem] w-[24rem] rounded-full bg-accent-foreground/15 blur-3xl" />
-        <div className="absolute bottom-[-10rem] left-1/3 h-[26rem] w-[26rem] rounded-full bg-primary-glow/20 blur-3xl" />
-        <div className="auth-grid absolute inset-0" />
+        <div className="auth-orb auth-orb-1 -left-36 -top-36 h-[30rem] w-[30rem]" />
+        <div className="auth-orb auth-orb-2 -right-28 top-1/4 h-[26rem] w-[26rem]" />
+        <div className="auth-orb auth-orb-3 bottom-[-11rem] left-1/3 h-[28rem] w-[28rem]" />
+        <div className="auth-grid absolute inset-0 opacity-70" />
       </div>
 
       <main
-        className={`relative z-10 mx-auto flex min-h-dvh w-full max-w-6xl flex-col items-center justify-center gap-8 px-5 py-10 lg:flex-row lg:items-center lg:gap-16 ${loaded ? "opacity-100" : "opacity-0"} transition-opacity duration-500`}
+        className={`relative z-10 mx-auto flex min-h-dvh w-full max-w-6xl flex-col items-center justify-center gap-10 px-5 py-12 lg:flex-row lg:items-center lg:gap-20 ${loaded ? "opacity-100" : "opacity-0"} transition-opacity duration-700`}
       >
         {/* Panel de marca */}
         <section className="hidden w-full max-w-md lg:block lg:max-w-xl lg:flex-1">
-          <span className="glass-control inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-medium text-accent-foreground">
+          <span className="glass-control inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[11px] font-medium tracking-wide text-accent-foreground">
             <Sparkles size={12} /> Plataforma de creación de juegos
           </span>
-          <h2 className="mt-5 font-display text-4xl font-semibold leading-[1.1] tracking-tight text-foreground xl:text-5xl">
-            Crea, publica y juega <span className="text-primary">sin límites.</span>
+          <h2 className="mt-6 font-display text-5xl font-semibold leading-[1.05] tracking-tight text-foreground xl:text-6xl">
+            Crea, publica y juega <span className="auth-gradient-text">sin límites.</span>
           </h2>
-          <p className="mt-4 max-w-md text-[15px] leading-relaxed text-muted-foreground">
+          <p className="mt-5 max-w-md text-[15px] leading-relaxed text-muted-foreground">
             Diseña niveles, anima personajes y comparte tus juegos con una comunidad de creadores, todo desde el navegador.
           </p>
-          <ul className="mt-8 grid max-w-md gap-3">
+          <ul className="mt-9 grid max-w-md gap-3">
             {[
               { icon: Gamepad2, t: "Editor de juegos completo", d: "Escenas, sprites, scripts y física." },
               { icon: Palette, t: "Arte y animación integrados", d: "Pinta y anima sin salir de Asternal." },
               { icon: Globe, t: "Publica al instante", d: "Tu juego en la galería con un clic." },
             ].map(({ icon: I, t, d }) => (
-              <li key={t} className="glass-surface flex items-center gap-3 rounded-2xl p-3">
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary/12 text-primary">
-                  <I size={18} />
+              <li key={t} className="glass-surface flex items-center gap-3.5 rounded-2xl p-3.5">
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary/12 text-primary">
+                  <I size={19} />
                 </span>
                 <span className="min-w-0">
                   <span className="block text-sm font-semibold text-foreground">{t}</span>
@@ -274,22 +274,22 @@ export function SignInSide({ onSignedIn, returnTo = "/", notice }: SignInSidePro
         </section>
 
         {/* Tarjeta de acceso */}
-        <section className="w-full max-w-[420px] lg:shrink-0">
-          <div className="glass-surface auth-card relative overflow-hidden rounded-[32px] p-6 shadow-xl ring-1 ring-white/40 sm:p-9">
+        <section className="w-full max-w-[430px] lg:shrink-0">
+          <div className="auth-card relative overflow-hidden rounded-[32px] p-6 sm:p-9">
             {/* Filo de marca: hilo de degradado en el borde superior */}
-            <span aria-hidden className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
+            <span aria-hidden className="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent" />
 
-            <div className="mb-5 flex items-center justify-between lg:hidden">
-              <AsternalLogo size={34} />
+            <div className="mb-6 flex items-center justify-between lg:hidden">
+              <AsternalLogo size={36} />
               <span className="rounded-full bg-primary/10 px-2.5 py-1 text-[10px] font-semibold tracking-wide text-primary">CREADORES</span>
             </div>
 
             {/* Encabezado de la página: en esta pantalla el título de la
                 tarjeta es lo que la identifica. */}
-            <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
-              {mode === "signin" ? "Iniciar sesión" : "Crear tu cuenta"}
+            <h1 className="font-display text-[26px] font-semibold tracking-tight text-foreground">
+              {mode === "signin" ? "Bienvenido de nuevo" : "Crear tu cuenta"}
             </h1>
-            <p className="mt-1 text-[13px] text-muted-foreground">
+            <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">
               {mode === "signin"
                 ? "Entra con tu nombre de usuario o tu correo."
                 : "Elige un usuario; el correo es opcional."}
@@ -302,7 +302,7 @@ export function SignInSide({ onSignedIn, returnTo = "/", notice }: SignInSidePro
               ]}
               value={mode}
               onChange={switchMode}
-              className="mt-4"
+              className="mt-5"
             />
 
             {notice && (
