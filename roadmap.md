@@ -1,7 +1,7 @@
 # Tareas
-- [ ] Quitar del feed las tarjetas de juegos que muestran imágenes vacías sin borrar los juegos.
-- [ ] Corregir recortes, imágenes y ventanas de Tienda.
-- [ ] Verificar Tienda en móvil y escritorio y ejecutar pruebas del filtro de publicaciones.
+- [x] Quitar del feed las tarjetas de juegos que muestran imágenes vacías sin borrar los juegos (los posts con juegos fijados siguen visibles).
+- [x] Corregir recortes, imágenes y ventanas de Tienda.
+- [x] Verificar Tienda en móvil y escritorio y ejecutar pruebas del filtro de publicaciones (compra real no comprobada: cuenta de prueba sin saldo del servicio).
 - [x] Corregir el borde que sobresale del compositor de publicaciones.
 - [x] Revisar y corregir recortes en campos, herramientas, pestañas y tarjetas de publicaciones.
 - [x] Verificar publicaciones en móvil y escritorio (sesión local de prueba; sin publicar ni modificar datos reales).
