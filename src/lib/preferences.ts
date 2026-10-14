@@ -9,7 +9,7 @@ import { useSyncExternalStore } from "react";
  *   - language: reservado, bloqueado hasta implementar la traducción.
  *
  * La interfaz no es una preferencia: la aplicación usa siempre Material 3
- * (ver src/material3.css), que se importa después de las utilidades base para
+ * (ver src/glass.css), que se importa después de las utilidades base para
  * fijar los tokens y el aspecto de los componentes.
  */
 

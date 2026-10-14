@@ -115,7 +115,7 @@
   --shadow-float: 0 18px 44px -18px oklch(0.5 0.13 266 / 0.3);
   --shadow-glow: 0 10px 30px -12px oklch(0.55 0.14 262 / 0.3), 0 4px 18px -8px oklch(0.68 0.08 230 / 0.26);
 
-  /* Los tokens de material (--glass-*) y de elevación los define material3.css:
+  /* Los tokens de material (--glass-*) y de elevación los define glass.css:
      la interfaz es siempre Material 3, sin vidrio ni variantes. */
 
   /* ── Degradados oficiales (DESIGN.md §2.2) ── */
@@ -126,7 +126,7 @@
   --gradient-asternal-deep: linear-gradient(135deg, oklch(0.42 0.12 266) 0%, oklch(0.48 0.11 256) 48%, oklch(0.57 0.08 236) 100%);
 
   /* Asternal Plus — paleta Material 3 del producto (roles y tonos sólidos) en
-     material3.css: --plus, --plus-container, --plus-on-primary, --plus-outline
+     glass.css: --plus, --plus-container, --plus-on-primary, --plus-outline
      y --plus-frame-*. Aquí no se define ningún degradado de Plus. */
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -663,7 +663,7 @@
 
 /* ============ Plus: marcos de avatar ============
    Sin degradados ni animaciones de borde: cada marco es un color SÓLIDO de la
-   paleta Material 3 de Plus (--plus-frame-* en material3.css), aplicado en
+   paleta Material 3 de Plus (--plus-frame-* en glass.css), aplicado en
    línea como anillo plano por PostCard y ProfilePanel. */
 
 
