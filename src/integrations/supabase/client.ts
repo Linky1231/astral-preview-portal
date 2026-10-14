@@ -772,7 +772,11 @@ export function getSupabaseAnonKey(): string | undefined {
   }
   const env = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
   if (env && env.trim()) return env.trim();
-  if (!env && !_warnedMissingAnon) {
+  const fallback = (DEFAULT_SUPABASE_ANON_KEY && DEFAULT_SUPABASE_ANON_KEY.trim()) || undefined;
+  // Solo avisar si de verdad no hay ninguna clave usable: con la clave por
+  // defecto o con credenciales guardadas la app funciona igual, y el aviso
+  // solo ensucia la consola (y el canvas lo marca como error).
+  if (!env && !fallback && !_warnedMissingAnon) {
     _warnedMissingAnon = true;
     console.warn(
       "[supabase] VITE_SUPABASE_ANON_KEY no está en este build. " +
@@ -780,7 +784,7 @@ export function getSupabaseAnonKey(): string | undefined {
       "para forzar la recompilación (las variables se hornean al compilar)."
     );
   }
-  return (DEFAULT_SUPABASE_ANON_KEY && DEFAULT_SUPABASE_ANON_KEY.trim()) || undefined;
+  return fallback;
 }
 
 export type SaveCredentialsResult = { ok: boolean; error?: string };
