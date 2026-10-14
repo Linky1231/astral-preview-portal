@@ -608,7 +608,7 @@ export function StoreSection({ myId, isMod: _isMod, onRefresh }: {
                 )}
                 <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border/50 bg-muted/25 px-3 py-2.5">
                   <div><div className="text-[9px] uppercase tracking-[0.14em] text-muted-foreground">Precio</div><div className="mt-0.5 flex items-center gap-1 text-sm font-semibold tabular-nums"><Sparkles size={13} className="text-primary" />{galleryPreviewPrice(detailPost.price_orbes)} orbes</div></div>
-                  {myId && detailPost.author?.id !== myId && <Button variant="ghost" type="button" onClick={() => setBuyPost(detailPost)} className="h-9 rounded-lg grad-brand px-3 text-[11px] font-semibold text-primary-foreground shadow-sm active:scale-[0.97] transition-transform">{detailPost.price_orbes ? "Comprar obra" : "Obtener obra"}</Button>}
+                  {myId && detailPost.author_id !== myId && <Button variant="gradient" type="button" disabled={balance === null} onClick={() => setBuyPost(detailPost)} className="h-9 rounded-lg px-3 text-[11px] font-semibold">{balance === null ? "Saldo no disponible" : detailPost.price_orbes ? "Comprar obra" : "Obtener obra"}</Button>}
                 </div>
                 <div className="border-t border-border/50 pt-4"><div className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground mb-3">Comentarios</div><CommentSection postId={detailPost.id} myId={myId} isMod={false} onChange={load} /></div>
               </aside>
