@@ -9,6 +9,10 @@ import "./styles.css";
 import "./glass.css";
 
 // Initialize the router with query client
+// «/index» o «/index.html» no existen: se llevan al inicio real.
+if (/^\/index(\.html)?\/?$/.test(window.location.pathname)) {
+  window.history.replaceState(null, "", "/" + window.location.search + window.location.hash);
+}
 const router = getRouter();
 
 /** Hard guard so runtime errors never leave the preview as a blank page. */
