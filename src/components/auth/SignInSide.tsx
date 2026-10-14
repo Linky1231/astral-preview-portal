@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import {
   Mail, Lock, User, ArrowRight, Loader2, AlertCircle,
-  LogIn, UserPlus, Eye, EyeOff,
+  LogIn, UserPlus, Eye, EyeOff, Sparkles, Gamepad2, Palette, Globe,
 } from "lucide-react";
 
 import { AsternalLogo } from "@/components/brand/AsternalLogo";
@@ -231,37 +231,62 @@ export function SignInSide({ onSignedIn, returnTo = "/", notice }: SignInSidePro
 
   return (
     <div className="relative min-h-dvh w-full overflow-y-auto bg-background text-foreground">
-      {/* Fondo M3: una única superficie con tinte de marca. Sin halos radiales,
-          retículas ni grano: M3 separa planos con contenedores y elevación, no
-          con texturas ni luces de fondo. */}
-      <div className="pointer-events-none fixed inset-0 grad-brand-soft" />
+      {/* Fondo: auroras azules suaves + retícula fina, para que el cristal
+          tenga profundidad detrás. */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 overflow-hidden">
+        <div className="absolute -left-32 -top-32 h-[28rem] w-[28rem] rounded-full bg-primary/25 blur-3xl" />
+        <div className="absolute -right-24 top-1/4 h-[24rem] w-[24rem] rounded-full bg-accent-foreground/15 blur-3xl" />
+        <div className="absolute bottom-[-10rem] left-1/3 h-[26rem] w-[26rem] rounded-full bg-primary-glow/20 blur-3xl" />
+        <div className="auth-grid absolute inset-0" />
+      </div>
 
       <main
-        className={`relative z-10 mx-auto flex min-h-dvh w-full max-w-6xl flex-col-reverse items-center justify-center gap-10 px-5 py-10 lg:flex-row lg:items-center lg:gap-16 ${loaded ? "opacity-100" : "opacity-0"} transition-opacity duration-500`}
+        className={`relative z-10 mx-auto flex min-h-dvh w-full max-w-6xl flex-col items-center justify-center gap-8 px-5 py-10 lg:flex-row lg:items-center lg:gap-16 ${loaded ? "opacity-100" : "opacity-0"} transition-opacity duration-500`}
       >
-        {/* Panel de marca: el logotipo y una línea, nada más. Hasta lg no se
-            enseña (una sola marca en pantalla: la lleva la tarjeta), así que en
-            móvil la pantalla es la tarjeta de acceso centrada. */}
+        {/* Panel de marca */}
         <section className="hidden w-full max-w-md lg:block lg:max-w-xl lg:flex-1">
-          <AsternalLogo size={44} />
-          <p className="mt-6 max-w-md text-[13px] font-normal leading-relaxed text-muted-foreground">
-            Descubre y juega creaciones hechas con Asternal, y publica las tuyas al instante.
+          <span className="glass-control inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-medium text-accent-foreground">
+            <Sparkles size={12} /> Plataforma de creación de juegos
+          </span>
+          <h2 className="mt-5 font-display text-4xl font-semibold leading-[1.1] tracking-tight text-foreground xl:text-5xl">
+            Crea, publica y juega <span className="text-primary">sin límites.</span>
+          </h2>
+          <p className="mt-4 max-w-md text-[15px] leading-relaxed text-muted-foreground">
+            Diseña niveles, anima personajes y comparte tus juegos con una comunidad de creadores, todo desde el navegador.
           </p>
+          <ul className="mt-8 grid max-w-md gap-3">
+            {[
+              { icon: Gamepad2, t: "Editor de juegos completo", d: "Escenas, sprites, scripts y física." },
+              { icon: Palette, t: "Arte y animación integrados", d: "Pinta y anima sin salir de Asternal." },
+              { icon: Globe, t: "Publica al instante", d: "Tu juego en la galería con un clic." },
+            ].map(({ icon: I, t, d }) => (
+              <li key={t} className="glass-surface flex items-center gap-3 rounded-2xl p-3">
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary/12 text-primary">
+                  <I size={18} />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-sm font-semibold text-foreground">{t}</span>
+                  <span className="block text-xs text-muted-foreground">{d}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
         </section>
 
         {/* Tarjeta de acceso */}
         <section className="w-full max-w-[420px] lg:shrink-0">
-          <div className="glass-surface relative overflow-hidden rounded-3xl p-6 shadow-[var(--m3-elev-2)] sm:p-7">
+          <div className="glass-surface auth-card relative overflow-hidden rounded-[28px] p-6 sm:p-8">
             {/* Filo de marca: hilo de degradado en el borde superior */}
-            <span aria-hidden className="absolute inset-x-0 top-0 h-[3px] grad-brand" />
+            <span aria-hidden className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
 
-            <div className="mb-5 lg:hidden">
-              <AsternalLogo size={38} />
+            <div className="mb-5 flex items-center justify-between lg:hidden">
+              <AsternalLogo size={34} />
+              <span className="rounded-full bg-primary/10 px-2.5 py-1 text-[10px] font-semibold tracking-wide text-primary">CREADORES</span>
             </div>
 
             {/* Encabezado de la página: en esta pantalla el título de la
                 tarjeta es lo que la identifica. */}
-            <h1 className="font-display text-xl font-semibold tracking-tight text-foreground">
+            <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
               {mode === "signin" ? "Iniciar sesión" : "Crear tu cuenta"}
             </h1>
             <p className="mt-1 text-[13px] text-muted-foreground">
@@ -384,7 +409,7 @@ export function SignInSide({ onSignedIn, returnTo = "/", notice }: SignInSidePro
               <button
                 type="submit"
                 disabled={busy}
-                className="btn-grad inline-flex w-full items-center justify-center gap-2 rounded-xl py-2.5 font-display text-sm font-semibold tracking-wide transition active:scale-[0.98] disabled:opacity-50"
+                className="btn-grad inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl font-display text-sm font-semibold tracking-wide transition active:scale-[0.98] disabled:opacity-50"
               >
                 {busy ? (
                   <>
