@@ -725,7 +725,7 @@ export function SceneEditor({ scene, tool, selectedId, onSelect, onChange }: Pro
         onPointerUp={onPointerUp}
         onPointerCancel={onPointerUp}
       />
-      <div className="absolute top-2 left-2 panel rounded-md px-2 py-1 text-[10px] font-mono text-primary-glow">
+      <div className="absolute top-2 left-2 editor-fab-group rounded-full px-2.5 py-1 text-[10px] font-mono font-medium text-primary">
         {scene.width}×{scene.height} · {Math.round(scale * 100)}%
       </div>
     </div>
