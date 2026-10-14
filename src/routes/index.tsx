@@ -32,6 +32,7 @@ import { StorageDialog } from "@/components/engine/StorageDialog";
 import { SettingsDialog } from "@/components/settings/SettingsPanel";
 import { SignInSide } from "@/components/auth/SignInSide";
 import { AsternalLogo } from "@/components/brand/AsternalLogo";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -175,20 +176,27 @@ function HomePage() {
   const [draftsOpen, setDraftsOpen] = useState(false);
   const [storageOpen, setStorageOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [inPreview, setInPreview] = useState(false);
   // Estado de sesión. Sin sesión guardada la portada es la pantalla de acceso
   // desde el primer frame; con sesión guardada se pinta el panel y la
   // comprobación real (asíncrona) decide si sigue siendo válida.
   const [sessionState, setSessionState] = useState<"in" | "out">(initialSessionState);
 
-  // When the app runs embedded in the Freebuff preview (inside an iframe), the
-  // platform's floating button overlaps the top-right of the app. Push the
-  // header row down so the menu (☰) stays visible and tappable there.
+  // El menú desplaza solo sus opciones, nunca la página que queda detrás.
   useEffect(() => {
-    try {
-      setInPreview(typeof window !== "undefined" && window.self !== window.top);
-    } catch { /* cross-origin access can throw; treat as standalone */ }
-  }, []);
+    if (!menuOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const dismiss = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setMenuOpen(false);
+      setMenuSection(null);
+    };
+    window.addEventListener("keydown", dismiss);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", dismiss);
+    };
+  }, [menuOpen]);
 
   // Abrir el chat con un mensaje compartido (botón «Compartir en el chat» del perfil).
   useEffect(() => {
@@ -357,11 +365,11 @@ function HomePage() {
   }
 
   return (
-    <div className="min-h-screen w-full flex flex-col bg-background text-foreground">
+    <div className="min-h-dvh w-full flex flex-col bg-canvas text-foreground">
       {/* Header */}
       {/* Material de vidrio contenido: blur moderado para mantener el scroll fluido. */}
       <header className="app-header glass-header sticky top-0 z-20 border-b">
-        <div className={`max-w-2xl md:max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto flex items-center gap-2 sm:gap-2.5 px-3 sm:px-4 ${inPreview ? "pt-14 pb-3" : "py-2.5"}`}>
+        <div className="max-w-2xl md:max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto flex items-center gap-2 sm:gap-2.5 px-3 sm:px-4 py-2.5">
           <BackButton
             showLabel={false}
             variant="solid"
@@ -373,7 +381,7 @@ function HomePage() {
             className="glass-control w-9 h-9 sm:w-10 sm:h-10 rounded-xl overflow-hidden active:scale-95 shrink-0">
             <Avatar p={me} className="w-full h-full" />
           </button>
-          <div className="flex-1 min-w-0 header-name">
+          <div className="flex-1 min-w-0 header-name pt-0.5">
             {/* Marca integrada: la «A» del logo abre la palabra y el nombre sigue
                 con «sternal», así que el título dice «Asternal» con una sola A. */}
             <AsternalLogo size={16} className="max-w-full" />
@@ -388,10 +396,10 @@ function HomePage() {
               <span className="text-[11px] sm:text-xs font-display font-semibold tabular-nums">{me.orbes}</span>
             </div>
           )}
-          <button onClick={openMenu} title="Menú" aria-label="Menú"
-            className="m3-icon-btn text-ink-2 shrink-0">
+          <Button onClick={openMenu} title="Menú" aria-label="Menú" variant="outline" size="icon"
+            className="h-10 w-10 rounded-full text-ink-2 shrink-0">
             <Menu size={16} />
-          </button>
+          </Button>
         </div>
 
       </header>
@@ -552,14 +560,17 @@ function HomePage() {
           <motion.div
             key="menu-drawer"
             onClick={e => e.stopPropagation()}
-            className="menu-drawer fixed right-0 top-0 z-[101] h-full w-[86vw] max-w-xs glass-menu-drawer border-l px-4 py-4 flex flex-col overflow-y-auto"
+            className="menu-drawer fixed right-0 top-0 z-[101] h-dvh w-[86vw] max-w-xs glass-menu-drawer border-l px-4 pt-[max(1rem,env(safe-area-inset-top))] pb-[max(1rem,env(safe-area-inset-bottom))] flex flex-col overflow-hidden"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menú principal"
             initial={{ x: "100%", opacity: 0.4 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: "100%", opacity: 0 }}
             transition={{ type: "tween", duration: 0.26, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="flex flex-1 flex-col">
-              <div className="flex items-center justify-between mb-3">
+            <div className="flex flex-1 min-h-0 flex-col">
+              <div className="flex items-center justify-between mb-3 shrink-0">
                 <div className="section-label">MENÚ</div>
                 <button onClick={closeMenu} aria-label="Cerrar menú"
                   className="w-8 h-8 rounded-lg border border-line-strong bg-card text-ink-2 grid place-items-center hover:bg-muted/60 hover:text-foreground active:scale-95 transition">
@@ -569,7 +580,7 @@ function HomePage() {
               {/* Acceso directo al perfil: al tocar la foto sales del menú y vas a tu perfil */}
               <button
                 onClick={() => { closeMenu(); navigate({ to: "/profile" }); }}
-                className="flex items-center gap-3 p-2.5 rounded-2xl border border-line-strong bg-card hover:border-primary/25 hover:bg-muted/60 active:scale-[0.98] transition mb-2 text-left group"
+                className="flex items-center gap-3 p-2.5 rounded-2xl border border-line-strong bg-card hover:border-primary/25 hover:bg-muted/60 active:scale-[0.98] transition mb-2 text-left group shrink-0"
               >
                 <Avatar p={me} size={40} className="ring-2 ring-primary/15" />
                 <div className="min-w-0 flex-1">
@@ -581,13 +592,13 @@ function HomePage() {
               {/* Cada sección es una sola opción: al elegirla se abre su propia
                   pantalla independiente (ver más abajo), no una lista dentro
                   del panel lateral. */}
-              <div className="menu-section-list">
+              <div className="menu-section-list flex-1 min-h-0 overflow-y-auto overscroll-contain">
                 {MENU_SECTIONS.map((section) => (
                   <button
                     key={section.id}
                     onClick={() => setMenuSection(section.id)}
                     aria-haspopup="dialog"
-                    className="menu-action flex items-center gap-3 px-3 py-2.5 rounded-2xl text-left group"
+                    className="menu-action w-full flex items-center gap-3 px-3 py-2.5 rounded-2xl text-left group"
                   >
                     <span className="text-primary/80 shrink-0">{MENU_SECTION_ICONS[section.id]}</span>
                     <span className="min-w-0 flex-1">
@@ -603,7 +614,7 @@ function HomePage() {
               {/* El aire de arriba va en el envoltorio: puesto como `padding-top`
                   dentro del botón, empujaba el texto hacia abajo y «Cerrar
                   sesión» quedaba descentrado respecto a su marco. */}
-              <div className="mt-auto pt-5">
+              <div className="shrink-0 pt-3">
                 <button onClick={() => { logout(); closeMenu(); }}
                   className="w-full flex items-center gap-3 px-3 h-11 rounded-xl border border-destructive/15 bg-destructive/5 text-destructive hover:bg-destructive/10 active:scale-[0.98] transition">
                   <LogOut size={16} /> <span className="text-sm font-medium">Cerrar sesión</span>
@@ -753,8 +764,7 @@ function HomePage() {
       <StorageDialog open={storageOpen} onOpenChange={setStorageOpen} />
 
       {/* Bottom Navigation */}
-      {/* Barra de navegación M3: superficie de contenedor, opaca (sin cristal) y
-          con la píldora de estado activo en el contenedor secundario. */}
+      {/* Navegación de cristal con una acción de creación en azul de marca. */}
       <nav className="fixed bottom-0 inset-x-0 z-30 bg-card border-t border-line" style={{ paddingBottom: "env(safe-area-inset-bottom)" }} aria-label="Navegación principal">
         <div className="max-w-2xl md:max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto px-3 py-2">
           {/* Tabs with gray selector — Inicio | Publicaciones | +Crear | Tienda | Perfil */}
@@ -789,18 +799,19 @@ function HomePage() {
             </button>
 
             {/* Center CREAR button: abre la interfaz compacta de creación */}
-            <button
+            <Button
               type="button"
               onClick={() => setCreateOpen(true)}
               aria-haspopup="dialog"
-              className="relative z-10 flex flex-col items-center justify-center gap-1 min-h-14 rounded-full text-accent-foreground hover:opacity-90 active:scale-[0.97] transition-transform motion-reduce:transition-none"
+              variant="ghost"
+              aria-label="Crear"
+              className="relative z-10 h-auto min-w-0 flex flex-col items-center justify-center gap-1 min-h-14 p-0 rounded-full text-primary hover:text-primary hover:opacity-90 active:scale-[0.97] transition-transform motion-reduce:transition-none"
             >
-              {/* FAB M3: contenedor primario, forma large, elevación de nivel 3. */}
-              <div className="w-9 h-9 rounded-xl bg-accent text-accent-foreground shadow-xl flex items-center justify-center">
+              <div className="w-9 h-9 rounded-xl btn-grad flex items-center justify-center">
                 <Plus size={19} strokeWidth={2.5} />
               </div>
               <span className="text-[10px] font-medium tracking-wide">Crear</span>
-            </button>
+            </Button>
 
             {/* Tienda (obras de artistas) */}
             <button
