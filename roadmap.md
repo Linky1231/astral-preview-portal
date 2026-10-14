@@ -1,4 +1,7 @@
 # Tareas
+- [x] Corregir la presentación del perfil propio, sus campos y ventanas de edición.
+- [x] Corregir la presentación del perfil público que ven otros usuarios.
+- [x] Verificar ambos perfiles en 320px, 428px y escritorio con datos aislados; cancelación, QR, seguidores, confianza y portafolio comprobados (guardado en cuentas reales no verificado: sin sesión del servicio externo).
 - [x] Quitar del feed las tarjetas de juegos que muestran imágenes vacías sin borrar los juegos (los posts con juegos fijados siguen visibles).
 - [x] Corregir recortes, imágenes y ventanas de Tienda.
 - [x] Verificar Tienda en móvil y escritorio y ejecutar pruebas del filtro de publicaciones (compra real no comprobada: cuenta de prueba sin saldo del servicio).

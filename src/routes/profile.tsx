@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate, Link, Outlet, useMatch } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Sparkles } from "lucide-react";
+import { Loader2, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { SubPageHeader } from "@/components/social/SubPageHeader";
 import { ProfilePanel } from "@/components/social/ProfilePanel";
@@ -33,9 +33,9 @@ function ProfilePage() {
   // (profile.$userId) que el router monta en este Outlet.
   if (otherMatch) return <Outlet />;
 
-  if (!myId) return null;
+  if (!myId) return <div className="min-h-dvh bg-background text-foreground"><SubPageHeader title="MI PERFIL" /><div role="status" className="p-8 text-center text-sm text-muted-foreground"><Loader2 className="mr-2 inline animate-spin" size={16} />Cargando perfil…</div></div>;
   return (
-    <div className="min-h-screen w-full flex flex-col bg-background text-foreground">
+    <div className="min-h-dvh w-full min-w-0 flex flex-col bg-background text-foreground">
       <SubPageHeader
         title="MI PERFIL"
         subtitle={me ? `@${me.username ?? "…"}` : undefined}
@@ -48,8 +48,8 @@ function ProfilePage() {
           ) : undefined
         }
       />
-      <main className="flex-1 max-w-2xl md:max-w-3xl lg:max-w-4xl mx-auto w-full px-3 py-3 pb-24">
-        <ProfilePanel userId={myId} myId={myId} isMod={mod} viewingOwn={true} />
+      <main className="min-w-0 flex-1 max-w-2xl md:max-w-3xl lg:max-w-4xl mx-auto w-full px-3 py-3 pb-6">
+        <ProfilePanel userId={myId} myId={myId} isMod={mod} viewingOwn={true} onProfileChange={setMe} />
       </main>
     </div>
   );
