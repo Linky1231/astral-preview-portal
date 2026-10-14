@@ -4,9 +4,9 @@ import { createRoot } from "react-dom/client";
 import { RouterProvider } from "@tanstack/react-router";
 import { getRouter } from "./router";
 import "./styles.css";
-// Material 3 es la única interfaz: se importa al final para fijar tokens y
-// componentes sobre las utilidades base.
-import "./material3.css";
+// Estilo único de cristal (glassmorphism): se importa al final para fijar
+// tokens y componentes sobre las utilidades base.
+import "./glass.css";
 
 // Initialize the router with query client
 const router = getRouter();
