@@ -977,6 +977,13 @@
   }
 }
 
+/* La preview ya reserva el espacio del dispositivo fuera de la aplicación.
+   Solo una app instalada necesita su propia separación del indicador inferior. */
+.home-bottom-nav { padding-bottom: 0; }
+@media (display-mode: standalone) {
+  .home-bottom-nav { padding-bottom: env(safe-area-inset-bottom, 0px); }
+}
+
 /* ═══════════ Texto de carga del buscador (HaloSearchInput) ═══════════ */
 /* Onda por carácter: retardo y duración llegan por estilo inline. */
 .halo-char {
