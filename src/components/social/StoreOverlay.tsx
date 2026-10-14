@@ -12,8 +12,8 @@ export function StoreOverlay({ children, onClose, label, foreground = false }: {
     document.body.style.overflow = "hidden";
     container.current?.focus();
     const onKey = (event: KeyboardEvent) => {
-      const dialogs = document.querySelectorAll('[role="dialog"][aria-modal="true"]');
-      if (dialogs[dialogs.length - 1] !== container.current) return;
+      const dialogs = Array.from(document.querySelectorAll<HTMLElement>('[role="dialog"][aria-modal="true"]'));
+      if (dialogs.some(dialog => dialog !== container.current && Number(getComputedStyle(dialog).zIndex) > Number(container.current ? getComputedStyle(container.current).zIndex : 0))) return;
       if (event.key === "Escape") { event.stopImmediatePropagation(); closeRef.current(); }
       if (event.key !== "Tab") return;
       const elements = Array.from(container.current?.querySelectorAll<HTMLElement>('button:not(:disabled), a[href], input, textarea, select, [tabindex="0"]') ?? []).filter(el => el.getClientRects().length > 0);
