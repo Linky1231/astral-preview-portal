@@ -319,14 +319,14 @@ export function PortfolioPanel({
               <div className="flex items-center gap-2 flex-wrap">
                 {ACCENT_PRESETS.map(p => (
                   <Button variant="outline" key={p.id} onClick={() => setAccentColor(p.color)}
-                    className={`w-8 h-8 rounded-lg border-2 transition grid place-items-center ${accentColor === p.color ? "border-foreground scale-110" : "border-transparent hover:scale-105"}`}
+                    className={`w-9 h-9 shrink-0 p-0 rounded-lg border-2 transition grid place-items-center ${accentColor === p.color ? "border-foreground scale-110" : "border-transparent hover:scale-105"}`}
                     style={{ background: p.color }} title={p.label}>
                     <span className="h-5 w-5 shrink-0 rounded-full border border-border" style={{ background: p.color }} aria-hidden="true" />
                   </Button>
                 ))}
                 <input type="color" value={accentColor.startsWith("#") ? accentColor : "#3b82f6"}
                   onChange={e => setAccentColor(e.target.value)}
-                  className="w-8 h-8 rounded-lg border border-border cursor-pointer bg-transparent" title="Color personalizado" />
+                  className="w-9 h-9 shrink-0 p-0 rounded-lg border border-border cursor-pointer bg-transparent" title="Color personalizado" />
               </div>
             </Section>
 
@@ -403,7 +403,7 @@ export function PortfolioPanel({
                             const next = ICON_OPTIONS[(idx + 1) % ICON_OPTIONS.length].id;
                             updateAch(ach.id, "icon", next);
                           }}
-                            className="h-8 w-8 rounded-md border border-border/50 grid place-items-center hover:bg-muted/60 transition"
+                            className="h-9 w-9 shrink-0 p-0 rounded-md border border-border/50 grid place-items-center hover:bg-muted/60 transition"
                             style={{ color: accentColor }} title={getIcon(ach.icon).displayName ?? "Icono"}>
                             <Icon size={14} />
                           </Button>

@@ -691,7 +691,7 @@ export function ProfilePanel({
           <header className="shrink-0 glass-header border-b" onClick={event => event.stopPropagation()}>
             <div className="max-w-4xl mx-auto px-3 sm:px-6 py-3 flex items-center justify-between gap-3">
               <div className="min-w-0"><div className="text-[9px] uppercase tracking-[0.16em] text-muted-foreground">Galería</div><h3 className="text-sm font-display font-bold truncate">{(artDetail.content.split("\n")[0] || "Obra sin título").replace(/^🎮🎨\s*/, "").replace(/^🎨\s*/, "")}</h3></div>
-              <Button variant="outline" type="button" onClick={() => setArtDetail(null)} className="w-9 h-9 shrink-0 rounded-xl border border-border/60 bg-muted/40 grid place-items-center hover:bg-muted" aria-label="Cerrar detalle de obra"><X size={15} /></Button>
+              <Button variant="outline" type="button" onClick={() => setArtDetail(null)} className="w-10 h-10 shrink-0 p-0 rounded-xl border border-border/60 bg-muted/40 grid place-items-center hover:bg-muted" aria-label="Cerrar detalle de obra"><X size={15} /></Button>
             </div>
           </header>
           <div className="min-h-0 flex-1 overflow-y-auto" onClick={event => event.stopPropagation()}>
