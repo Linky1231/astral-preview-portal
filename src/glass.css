@@ -360,3 +360,34 @@ button[class~="bg-accent"] {
 .dark [data-state][class*="bg-black/"] {
   background-color: oklch(0.1 0.03 262 / 0.45) !important;
 }
+
+/* ─── Editor de juegos (Studio) ──────────────────────────────────────────── */
+.editor-shell {
+  background:
+    radial-gradient(50rem 30rem at 0% 0%, oklch(0.45 0.15 264 / 0.12), transparent 60%),
+    radial-gradient(40rem 26rem at 100% 100%, oklch(0.72 0.08 236 / 0.14), transparent 60%),
+    var(--canvas);
+}
+.editor-rail, .editor-bar {
+  background: var(--glass-fill-strong);
+  border-color: var(--glass-edge-muted);
+  box-shadow: var(--glass-highlight);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  backdrop-filter: blur(22px) saturate(180%);
+}
+.editor-fab-group {
+  background: var(--glass-fill-strong);
+  border: 1px solid var(--glass-edge-muted);
+  box-shadow: var(--glass-highlight), var(--m3-elev-2);
+  -webkit-backdrop-filter: blur(18px) saturate(170%);
+  backdrop-filter: blur(18px) saturate(170%);
+}
+.editor-fab { background: transparent; border: 1px solid transparent; transition: background-color .15s ease, color .15s ease; }
+.editor-fab:hover { background: oklch(0.45 0.15 264 / 0.1); }
+:is(.editor-bar, .editor-rail, .editor-shell) :is(a, button)[class~="bg-card"] {
+  background-color: var(--glass-fill) !important;
+  border-color: var(--glass-edge-muted) !important;
+  box-shadow: var(--glass-highlight), var(--m3-elev-1);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+}
