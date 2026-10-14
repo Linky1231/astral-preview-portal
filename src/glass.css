@@ -418,3 +418,62 @@ button[class~="bg-accent"] {
   -webkit-backdrop-filter: var(--glass-blur);
   backdrop-filter: var(--glass-blur);
 }
+
+/* ─── Pantalla de acceso: escena con degradado azul y auroras ───────────── */
+.auth-scene {
+  background:
+    radial-gradient(70rem 46rem at 12% -12%, oklch(0.45 0.15 264 / 0.32), transparent 62%),
+    radial-gradient(56rem 40rem at 108% 18%, oklch(0.62 0.14 258 / 0.26), transparent 60%),
+    radial-gradient(60rem 44rem at 50% 118%, oklch(0.5 0.16 264 / 0.24), transparent 64%),
+    linear-gradient(160deg, oklch(0.96 0.012 258), oklch(0.9 0.03 260) 45%, oklch(0.86 0.045 262));
+}
+.dark .auth-scene {
+  background:
+    radial-gradient(70rem 46rem at 12% -12%, oklch(0.5 0.16 264 / 0.4), transparent 62%),
+    radial-gradient(56rem 40rem at 108% 18%, oklch(0.62 0.14 258 / 0.28), transparent 60%),
+    radial-gradient(60rem 44rem at 50% 118%, oklch(0.45 0.15 264 / 0.34), transparent 64%),
+    linear-gradient(160deg, oklch(0.16 0.03 264), oklch(0.13 0.035 264) 50%, oklch(0.11 0.03 266));
+}
+.auth-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(70px);
+  opacity: 0.55;
+  animation: auth-drift 14s ease-in-out infinite alternate;
+  will-change: transform;
+}
+.auth-orb-1 { background: oklch(0.5 0.16 264 / 0.5); }
+.auth-orb-2 { background: oklch(0.68 0.12 236 / 0.45); animation-duration: 18s; animation-delay: -6s; }
+.auth-orb-3 { background: oklch(0.58 0.14 258 / 0.4); animation-duration: 22s; animation-delay: -11s; }
+@keyframes auth-drift {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(4rem, -3rem, 0) scale(1.12); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .auth-orb { animation: none; }
+}
+/* Tarjeta de acceso: cristal denso con borde luminoso y halo */
+.auth-card {
+  background: oklch(1 0 0 / 0.66);
+  border: 1px solid oklch(1 0 0 / 0.8);
+  box-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 0.9),
+    0 24px 60px -18px oklch(0.4 0.14 264 / 0.35),
+    0 4px 16px -6px oklch(0.4 0.14 264 / 0.2);
+  -webkit-backdrop-filter: blur(26px) saturate(180%);
+  backdrop-filter: blur(26px) saturate(180%);
+}
+.dark .auth-card {
+  background: oklch(0.22 0.03 262 / 0.6);
+  border-color: oklch(1 0 0 / 0.14);
+  box-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 0.12),
+    0 24px 60px -18px oklch(0 0 0 / 0.7);
+}
+/* Titular con degradado de marca */
+.auth-gradient-text {
+  background: linear-gradient(100deg, var(--primary), var(--primary-glow) 70%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
