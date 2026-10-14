@@ -7,3 +7,4 @@
 - Filter default community feeds after enrichment to exclude game, artwork and system cards and genuinely empty posts; explicit category views keep their own content.
 - Mount store dialogs in body portals with viewport-sized roots and isolated foreground layers so glass surfaces cannot trap them or cover purchase confirmations.
 - Mount profile tools through ProfileOverlay to keep dialogs viewport-bound, trap focus, restore scrolling, and close only the top nested layer with Escape.
+- Generate profile QR images locally with the QR library so preview and download never depend on a third-party image service.

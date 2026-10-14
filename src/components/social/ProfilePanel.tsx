@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ProfileOverlay } from "./ProfileOverlay";
 import { StoreImage } from "./StoreOverlay";
+import { createProfileQr } from "@/lib/social/profile-qr";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link, useNavigate } from "@tanstack/react-router";
 import {
@@ -119,6 +120,7 @@ export function ProfilePanel({
       const p = viewingOwn ? await getMyProfile() : await fetchProfileById(userId);
       setProfile(p);
       if (p) {
+        onProfileChange?.(p);
         setUsername(p.username ?? "");
         setDisplayName(p.display_name ?? "");
         setBio(p.bio ?? "");
@@ -816,18 +818,22 @@ function QRCustomizer({ userId, username, qrStyle, isPlus, viewingOwn }: {
   ] as const;
 
   const SIZES = [120, 160, 200, 240] as const;
-  const qrSrc = (() => {
-    const fg = qrHex(style.fg, "000000");
-    const bg = qrHex(style.bg, "ffffff");
-    const sz = style.size || 180;
-    return `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(profileUrl)}&size=${sz}x${sz}&margin=6&format=svg&color=${fg}&bgcolor=${bg}`;
-  })();
+  const [qrSvg, setQrSvg] = useState("");
+  const [qrError, setQrError] = useState(false);
+  useEffect(() => {
+    let active = true;
+    setQrError(false);
+    createProfileQr(profileUrl, style.fg, style.bg, style.size || 180)
+      .then(svg => { if (active) setQrSvg(svg); })
+      .catch(() => { if (active) setQrError(true); });
+    return () => { active = false; };
+  }, [profileUrl, style.fg, style.bg, style.size]);
+  const qrSrc = qrSvg ? `data:image/svg+xml;charset=utf-8,${encodeURIComponent(qrSvg)}` : undefined;
 
   const handleDownload = async () => {
     try {
-      const res = await fetch(qrSrc);
-      if (!res.ok) throw new Error("No se pudo generar el QR");
-      const rawQrSvg = await res.text();
+      if (!qrSvg) return;
+      const rawQrSvg = qrSvg;
       const bytes = new TextEncoder().encode(rawQrSvg);
       let binary = "";
       bytes.forEach(byte => { binary += String.fromCharCode(byte); });
@@ -853,9 +859,9 @@ function QRCustomizer({ userId, username, qrStyle, isPlus, viewingOwn }: {
       {/* Preview */}
       <div className="flex flex-col items-center gap-3">
         <div className="border border-border/40 bg-card shadow-sm" style={{ background: style.bg, borderRadius: 16, boxSizing: "border-box", width: `min(100%, ${frameSize}px)`, padding: qrPadding }}>
-          <img src={qrSrc} alt={`QR de ${username}`} width={style.size || 180} height={style.size || 180} className="block h-auto w-full max-w-full" />
+          {qrSrc ? <img src={qrSrc} alt={`QR de ${username}`} width={style.size || 180} height={style.size || 180} className="block h-auto w-full max-w-full" /> : <div role="status" className="aspect-square grid place-items-center text-sm text-muted-foreground">{qrError ? "No se pudo generar el QR" : <Loader2 className="animate-spin" />}</div>}
         </div>
-        <div className="text-[9px] font-mono text-muted-foreground/60 text-center truncate max-w-full">{profileUrl}</div>
+        <div className="text-[11px] font-mono text-muted-foreground text-center break-all max-w-full">{profileUrl}</div>
       </div>
 
       {/* Botón de guardar (solo Plus propio) */}
@@ -930,7 +936,7 @@ function QRCustomizer({ userId, username, qrStyle, isPlus, viewingOwn }: {
 
       {/* Acciones */}
       <div className="flex gap-2">
-        <Button variant="outline" onClick={handleDownload}
+        <Button variant="outline" disabled={!qrSvg} onClick={handleDownload}
           className="flex-1 h-9 rounded-lg border border-border/50 bg-surface text-[11px] font-medium flex items-center justify-center gap-1.5 active:scale-95 transition hover:bg-muted/40">
           <Download size={12} /> Descargar
         </Button>
@@ -985,7 +991,7 @@ function TrustPointsPanel({ userId, trustPoints, isMod, viewingOwn, onClose, onT
 
   return (
     <ProfileOverlay label="Puntos de confianza" onClose={onClose}>
-    <section className="flex h-full flex-col overflow-hidden bg-background/95 backdrop-blur-md animate-in fade-in duration-200" role="dialog" aria-modal="true" aria-label="Puntos de confianza">
+    <section className="flex h-full flex-col overflow-hidden bg-background/95 backdrop-blur-md animate-in fade-in duration-200">
       <header className="glass-header shrink-0 border-b border-border/70">
         <div className="mx-auto flex w-full max-w-5xl items-center gap-3 px-3 py-3 sm:px-6">
           <Button variant="outline" type="button" onClick={onClose} className="h-9 w-9 shrink-0 rounded-xl border border-primary/20 bg-primary/8 grid place-items-center text-primary hover:bg-primary/14 active:scale-95 transition" aria-label="Volver al perfil">

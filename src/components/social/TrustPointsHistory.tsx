@@ -48,7 +48,7 @@ export function TrustPointsHistory({
   const totalRestored = restores.reduce((sum, e) => sum + e.amount, 0);
 
   return (
-    <ProfileOverlay label="Historial de confianza" onClose={onClose}><section className="flex h-full flex-col overflow-hidden bg-background/95 backdrop-blur-md animate-in fade-in duration-200" role="dialog" aria-modal="true" aria-label="Historial de confianza">
+    <ProfileOverlay label="Historial de confianza" onClose={onClose}><section className="flex h-full flex-col overflow-hidden bg-background/95 backdrop-blur-md animate-in fade-in duration-200">
       <header className="glass-header shrink-0 border-b border-border/70">
         <div className="mx-auto flex w-full max-w-4xl items-center gap-3 px-3 py-3 sm:px-6">
           <Button variant="outline" type="button" onClick={onClose} className="h-10 w-10 p-0 shrink-0 rounded-xl border border-primary/20 bg-primary/8 grid place-items-center text-primary hover:bg-primary/14 active:scale-95 transition" aria-label="Volver a puntos de confianza"><X size={16} /></Button>
