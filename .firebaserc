@@ -1,0 +1,12 @@
+{
+  "projects": {
+    "default": "asternal-server-1-c9d1d"
+  },
+  "targets": {
+    "asternal-server-1-c9d1d": {
+      "hosting": {
+        "asternal": ["asternal"]
+      }
+    }
+  }
+}

@@ -1,8 +1,6 @@
-node_modules
-dist
-.output
-.vinxi
-pnpm-lock.yaml
-package-lock.json
+# Ignore artifacts:
+build
+coverage
+
+
 bun.lock
-routeTree.gen.ts

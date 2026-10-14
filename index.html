@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <!-- La versión en la URL fuerza a los navegadores que ya tenían el icono
+       antiguo en caché a pedir el nuevo. -->
+  <link rel="icon" type="image/svg+xml" href="/logo.svg?v=2" />
+  <link rel="alternate icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Asternal Engine</title>
+  <!-- Tema guardado (claro / oscuro): se aplica antes del primer pintado para
+       evitar el destello del tema equivocado. La interfaz es siempre
+       Material 3. -->
+  <script>
+    (function () {
+      try {
+        var p = JSON.parse(localStorage.getItem("ast_preferences") || "{}");
+        var theme = p.theme === "dark" ? "dark" : "light";
+        var root = document.documentElement;
+        root.classList.toggle("dark", theme === "dark");
+        root.style.colorScheme = theme;
+      } catch (e) { /* sin preferencias: se usa el tema por defecto */ }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
+</html>
