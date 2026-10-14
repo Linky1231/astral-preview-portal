@@ -141,7 +141,7 @@ export function EditorChooser() {
       <div className="relative z-10 mx-auto flex w-full min-h-0 max-w-5xl flex-1 items-center overflow-hidden py-3 md:items-stretch">
         <div
           ref={scrollerRef}
-          className="no-scrollbar relative -mx-3 flex w-full snap-x snap-mandatory overflow-x-auto overflow-y-hidden overscroll-x-contain scroll-smooth py-2 motion-reduce:scroll-auto"
+          className="no-scrollbar relative flex w-full px-[7%] sm:px-[16%] md:px-0 snap-x snap-mandatory overflow-x-auto overflow-y-hidden overscroll-x-contain scroll-smooth py-2 motion-reduce:scroll-auto"
         >
           {/* ─── Editor de plataformas (nativo) ─── */}
           <div className="w-[86%] shrink-0 snap-center px-3 sm:w-[68%] md:w-1/2">

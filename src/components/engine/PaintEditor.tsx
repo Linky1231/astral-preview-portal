@@ -2135,10 +2135,10 @@ export function PaintEditor({ onSave, onClose, size: initialSize = 512, source }
                 title={`${t.title} (${t.key})`}
                 aria-label={t.title}
                 aria-pressed={on}
-                className="group shrink-0 flex flex-col items-center gap-0.5 md:gap-1 md:w-full px-0.5 md:px-1 py-1 rounded-2xl transition"
+                className="group shrink-0 flex flex-col items-center gap-0.5 md:gap-1 md:w-full px-0 md:px-1 py-1 rounded-2xl transition"
               >
                 <span
-                  className={`grid place-items-center w-11 h-8 md:h-8 rounded-full transition-colors ${
+                  className={`grid place-items-center w-10 md:w-11 h-8 rounded-full transition-colors ${
                     on
                       ? "bg-accent text-accent-foreground"
                       : "text-ink-2 group-hover:bg-muted group-hover:text-foreground"
@@ -2159,7 +2159,7 @@ export function PaintEditor({ onSave, onClose, size: initialSize = 512, source }
             disabled={!history.canUndo}
             title="Deshacer (Ctrl+Z)"
             aria-label="Deshacer"
-            className="md:hidden shrink-0 grid place-items-center w-11 h-10 rounded-full text-ink-2 hover:bg-accent hover:text-accent-foreground active:scale-95 transition disabled:opacity-35 disabled:pointer-events-none"
+            className="md:hidden shrink-0 grid place-items-center w-10 h-10 rounded-full text-ink-2 hover:bg-accent hover:text-accent-foreground active:scale-95 transition disabled:opacity-35 disabled:pointer-events-none"
           >
             <Undo2 size={19} />
           </button>
@@ -2168,7 +2168,7 @@ export function PaintEditor({ onSave, onClose, size: initialSize = 512, source }
             disabled={!history.canRedo}
             title="Rehacer (Ctrl+Shift+Z)"
             aria-label="Rehacer"
-            className="md:hidden shrink-0 grid place-items-center w-11 h-10 rounded-full text-ink-2 hover:bg-accent hover:text-accent-foreground active:scale-95 transition disabled:opacity-35 disabled:pointer-events-none"
+            className="md:hidden shrink-0 grid place-items-center w-10 h-10 rounded-full text-ink-2 hover:bg-accent hover:text-accent-foreground active:scale-95 transition disabled:opacity-35 disabled:pointer-events-none"
           >
             <Redo2 size={19} />
           </button>
