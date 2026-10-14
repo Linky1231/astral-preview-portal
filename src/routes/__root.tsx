@@ -15,13 +15,13 @@ function NotFoundComponent() {
       <div className="max-w-md text-center">
         {/* M3: el número usa el rol display y el texto los roles headline/body. */}
         <h1 className="m3-display-large text-primary">404</h1>
-        <h2 className="m3-headline-small mt-4 text-foreground">Page not found</h2>
+        <h2 className="m3-headline-small mt-4 text-foreground">Página no encontrada</h2>
         <p className="m3-body-medium mt-2 text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
+          La página que buscas no existe o fue movida.
         </p>
         <div className="mt-6">
           <Link to="/" className="m3-btn">
-            Go home
+            Ir al inicio
           </Link>
         </div>
       </div>
@@ -40,10 +40,10 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="m3-headline-small text-foreground">
-          This page didn't load
+          No se pudo cargar la página
         </h1>
         <p className="m3-body-medium mt-2 text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
+          Algo salió mal. Intenta recargar o vuelve al inicio.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
@@ -53,10 +53,10 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
             }}
             className="m3-btn"
           >
-            Try again
+            Reintentar
           </button>
           <a href="/" className="m3-btn m3-btn-outlined">
-            Go home
+            Ir al inicio
           </a>
         </div>
       </div>
