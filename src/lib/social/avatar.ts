@@ -20,7 +20,7 @@ export function getUserCode(userId: string): string {
   const bits = (h1 ^ (h2 << 1)) >>> 0;
   let code = "";
   for (let i = 0; i < 6; i++) {
-    code += AVATAR_ALPHABET[(bits >> (i * 5)) % 32];
+    code += AVATAR_ALPHABET[(bits >>> (i * 5)) % AVATAR_ALPHABET.length];
   }
   return `AST-${code}`;
 }

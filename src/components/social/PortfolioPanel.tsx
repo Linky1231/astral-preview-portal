@@ -321,7 +321,7 @@ export function PortfolioPanel({
                   <Button variant="outline" key={p.id} onClick={() => setAccentColor(p.color)}
                     className={`w-8 h-8 rounded-lg border-2 transition grid place-items-center ${accentColor === p.color ? "border-foreground scale-110" : "border-transparent hover:scale-105"}`}
                     style={{ background: p.color }} title={p.label}>
-                    {accentColor === p.color && <div className="w-2 h-2 rounded-full bg-primary-foreground" />}
+                    <span className="h-5 w-5 shrink-0 rounded-full border border-border" style={{ background: p.color }} aria-hidden="true" />
                   </Button>
                 ))}
                 <input type="color" value={accentColor.startsWith("#") ? accentColor : "#3b82f6"}
