@@ -538,7 +538,7 @@ function HomePage() {
         {menuOpen && (
           <motion.div
             key="menu-overlay"
-            className="fixed inset-0 z-[100] bg-black/55 backdrop-blur-md"
+            className="fixed inset-0 z-[100] bg-primary/10 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -552,7 +552,7 @@ function HomePage() {
           <motion.div
             key="menu-drawer"
             onClick={e => e.stopPropagation()}
-            className="menu-drawer fixed right-0 top-0 z-[101] h-full w-[86vw] max-w-xs bg-card border-l border-border shadow-md px-4 py-4 flex flex-col overflow-y-auto"
+            className="menu-drawer fixed right-0 top-0 z-[101] h-full w-[86vw] max-w-xs glass-menu-drawer border-l px-4 py-4 flex flex-col overflow-y-auto"
             initial={{ x: "100%", opacity: 0.4 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: "100%", opacity: 0 }}

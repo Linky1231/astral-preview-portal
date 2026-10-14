@@ -324,3 +324,70 @@ button[class~="bg-accent"] {
   :root { --card: oklch(1 0 0 / 0.95); --popover: oklch(1 0 0); }
   .dark { --card: oklch(0.22 0.03 262 / 0.95); --popover: oklch(0.2 0.03 262); }
 }
+
+/* ─── Inicio de sesión ───────────────────────────────────────────────────── */
+.auth-grid {
+  background-image:
+    linear-gradient(oklch(0.45 0.15 264 / 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.45 0.15 264 / 0.06) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+}
+.auth-card {
+  background: var(--glass-fill-strong) !important;
+  box-shadow: var(--glass-highlight), 0 30px 60px -24px oklch(0.3 0.1 262 / 0.35) !important;
+}
+
+/* ─── Menú lateral (tres rayitas): cristal claro ─────────────────────────── */
+.glass-menu-drawer {
+  background: var(--glass-fill-strong);
+  border-color: var(--glass-edge-muted);
+  box-shadow: var(--glass-highlight), -20px 0 50px -20px oklch(0.3 0.1 262 / 0.3);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  backdrop-filter: blur(28px) saturate(180%);
+}
+.menu-drawer .menu-action { transition: background-color .15s ease; }
+.menu-drawer .menu-action:hover { background-color: oklch(0.45 0.15 264 / 0.08); }
+
+/* ─── Velos oscuros → velo de cristal claro ──────────────────────────────── */
+.fixed[class*="bg-black/"],
+[data-state][class*="bg-black/"] {
+  background-color: oklch(0.35 0.08 262 / 0.18) !important;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.dark .fixed[class*="bg-black/"],
+.dark [data-state][class*="bg-black/"] {
+  background-color: oklch(0.1 0.03 262 / 0.45) !important;
+}
+
+/* ─── Editor de juegos (Studio) ──────────────────────────────────────────── */
+.editor-shell {
+  background:
+    radial-gradient(50rem 30rem at 0% 0%, oklch(0.45 0.15 264 / 0.12), transparent 60%),
+    radial-gradient(40rem 26rem at 100% 100%, oklch(0.72 0.08 236 / 0.14), transparent 60%),
+    var(--canvas);
+}
+.editor-rail, .editor-bar {
+  background: var(--glass-fill-strong);
+  border-color: var(--glass-edge-muted);
+  box-shadow: var(--glass-highlight);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  backdrop-filter: blur(22px) saturate(180%);
+}
+.editor-fab-group {
+  background: var(--glass-fill-strong);
+  border: 1px solid var(--glass-edge-muted);
+  box-shadow: var(--glass-highlight), var(--m3-elev-2);
+  -webkit-backdrop-filter: blur(18px) saturate(170%);
+  backdrop-filter: blur(18px) saturate(170%);
+}
+.editor-fab { background: transparent; border: 1px solid transparent; transition: background-color .15s ease, color .15s ease; }
+.editor-fab:hover { background: oklch(0.45 0.15 264 / 0.1); }
+:is(.editor-bar, .editor-rail, .editor-shell) :is(a, button)[class~="bg-card"] {
+  background-color: var(--glass-fill) !important;
+  border-color: var(--glass-edge-muted) !important;
+  box-shadow: var(--glass-highlight), var(--m3-elev-1);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+}
