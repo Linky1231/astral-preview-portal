@@ -1,5 +1,6 @@
 // @ts-nocheck — Local DB adapter (types differ from Supabase generics)
 import { supabase, isSchemaMissing } from "@/integrations/supabase/client";
+import { isCommunityPublication, hasPublicationContent } from "./feed-visibility";
 import { DEFAULT_COVER_FRAME, type CoverFrame, withCoverFrame } from "./cover-frame";
 import {
   applyReview,
@@ -214,7 +215,11 @@ export async function fetchFeed(opts: { search?: string; tag?: string; category?
 
   const { data: { user } } = await supabase.auth.getUser();
   const me = user?.id ?? null;
-  return enrichPosts(posts as PostRow[], me, opts.tag);
+  const enriched = await enrichPosts(posts as PostRow[], me, opts.tag);
+  return enriched.filter(post =>
+    hasPublicationContent(post) &&
+    (opts.category || opts.includeGames || opts.artistGallery || isCommunityPublication(post))
+  );
 }
 
 /**
