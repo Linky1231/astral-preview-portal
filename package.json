@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite --host",
     "build": "tsc -b && vite build && esbuild server/_core/index.ts --platform=node --packages=external --bundle --format=esm --loader:.md=text --outdir=dist",
+    "build:dev": "vite build --mode development",
     "start": "NODE_ENV=production node dist/index.js",
     "lint": "eslint .",
     "format": "prettier --write .",
