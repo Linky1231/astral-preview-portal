@@ -40,7 +40,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="m3-headline-small text-foreground">
-          This page didn't load
+          No se pudo cargar la página
         </h1>
         <p className="m3-body-medium mt-2 text-muted-foreground">
           Algo salió mal. Intenta recargar o vuelve al inicio.
